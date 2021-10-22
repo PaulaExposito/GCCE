@@ -4,7 +4,7 @@ const database = require('./config/database');
 const app = express();
 
 
-mongoose.connect(database.url, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(database.localUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(db => console.log('Conectado a mongodb'))
     .catch(err => console.log(`Error con mongo: ${err}`));
 
