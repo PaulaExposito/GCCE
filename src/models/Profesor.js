@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Profesor = new mongoose.Schema({
     cod_prof: Number,
+    asign_impartidas: Number,
     nom_prof: String,
     apellido1: String ,
     apellido2: String,

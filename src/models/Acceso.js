@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Acceso = new mongoose.Schema({
     cod_alu: Number,
-    tip_acceso: String,
+    tipo_acceso: String,
     nota_acceso: Number,
     nota_med_bas: Number,
     nota_med_esp: Number,

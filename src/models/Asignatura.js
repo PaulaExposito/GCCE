@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
 const Titulacion = new mongoose.Schema({
-    cod_titul: Number,
     cod_asig: Number,
-    cred_asig: Number ,
+    cod_titulo: Number,
+    profesor: Array,
+    dificultad: AnalyserNode, // yo esto no lo pondria
+    cred_asig: Number,
     nom_asig: String,
     curso: Number,
     cuatrimestre: Number,
