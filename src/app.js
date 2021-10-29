@@ -35,7 +35,7 @@ for (let i = 0; i < 5; ++i) {
 }
 
 for (let i = 0; i < 2; ++i) {
-    titulacion.generateTitulacion();
+    titulacion.generateTitle();
 }
 
 for (let i = 0; i < 4; ++i) {

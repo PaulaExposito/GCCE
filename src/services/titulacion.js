@@ -22,27 +22,38 @@ async function removeAllTitulaciones() {
 
 // Generate random data
 
-const titleTypes = ["grado", "master"];
-const studieTypes = ["Ingenieria informatica", "Biologia", "Ingenieria nautica", "Filosofia"];
-const ctsNumber = [240, 72, 60];
+const masterCred = [60,72,180];
+const studieTypes = ["Ingenieria informatica", "Biologia", "Ingenieria nautica", "Filosofia"]
 
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function generateTitulacion() {
+function generateTitulacion(gradeType, credits) {
     createTitulacion({
         // cod_titul: 0,
         asignaturas: 40,
         num_cursos: 4,
-        tip_titul: titleTypes[0],
+        tip_titul: gradeType,
         tip_estud: studieTypes[Math.floor(Math.random() * studieTypes.length)],
-        total_cred: ctsNumber[0],
+        total_cred: credits,
         p_abandono: randomIntFromInterval(0, 100),
     });
 }
 
 
+
+function generateTitle() {
+    const type = randomIntFromInterval(1,2);
+    if(type === 1) {
+        generateTitulacion("grado", 240)
+    }
+    else {
+        const masterType = randomIntFromInterval(0,2);
+        generateTitulacion("master", masterCred[masterType])
+    }
+}
+
 module.exports = {
-    generateTitulacion
+    generateTitle
 }
