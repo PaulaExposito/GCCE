@@ -27,6 +27,7 @@ const matricula = require('./services/matricula');
 const profesor = require('./services/profesor');
 const notaebau = require('./services/notaebau');
 const califacademica = require('./services/califacademica');
+const serviciosexternos = require('./services/serviciosexternos');
 
 for (let i = 0; i < 5; ++i) {
     console.log(i)
@@ -50,9 +51,17 @@ for (let i = 0; i < 4; ++i) {
 }
 
 for (let i = 0; i < 4; ++i) {
+    profesor.generateProfesor();
+}
+
+for (let i = 0; i < 4; ++i) {
     notaebau.generateNotaEbau();
 }
 
 for (let i = 0; i < 4; ++i) {
     califacademica.generateCalifAcademica();
+}
+
+for (let i = 0; i < 4; ++i) {
+    serviciosexternos.generateServiciosExternos();
 }
