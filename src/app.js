@@ -20,9 +20,14 @@ const database = require('./config/database');
 
 
 const alumno = require('./services/alumno');
+const titulacion = require('./services/titulacion');
 
 for (let i = 0; i < 5; ++i) {
     console.log(i)
     alumno.generateAlumno();
+}
+
+for (let i = 0; i < 2; ++i) {
+    titulacion.generateTitulacion();
 }
 
