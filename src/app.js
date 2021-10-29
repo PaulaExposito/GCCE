@@ -26,6 +26,7 @@ const asignatura = require('./services/asignatura');
 const matricula = require('./services/matricula');
 const profesor = require('./services/profesor');
 const notaebau = require('./services/notaebau');
+const califacademica = require('./services/califacademica');
 
 for (let i = 0; i < 5; ++i) {
     console.log(i)
@@ -52,3 +53,6 @@ for (let i = 0; i < 4; ++i) {
     notaebau.generateNotaEbau();
 }
 
+for (let i = 0; i < 4; ++i) {
+    califacademica.generateCalifAcademica();
+}
