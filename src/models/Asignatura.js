@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const Titulacion = new mongoose.Schema({
+const Asignatura = new mongoose.Schema({
     cod_asig: Number,
     cod_titulo: Number,
     profesor: Array,
-    dificultad: AnalyserNode, // yo esto no lo pondria
+    dificultad: String, // yo esto no lo pondria | esto daba error AnalyserNode
     cred_asig: Number,
     nom_asig: String,
     curso: Number,
@@ -13,4 +13,4 @@ const Titulacion = new mongoose.Schema({
     especial: Boolean,
 });
 
-module.exports = mongoose.model('Titulacion', Titulacion);
+module.exports = mongoose.model('Asignatura', Asignatura);
