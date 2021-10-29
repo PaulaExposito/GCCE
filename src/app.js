@@ -23,6 +23,7 @@ const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
 const acceso = require('./services/acceso');
 const asignatura = require('./services/asignatura');
+const matricula = require('./services/matricula');
 
 for (let i = 0; i < 5; ++i) {
     console.log(i)
@@ -39,5 +40,9 @@ for (let i = 0; i < 4; ++i) {
 
 for (let i = 0; i < 4; ++i) {
     asignatura.generateAsignatura();
+}
+
+for (let i = 0; i < 4; ++i) {
+    matricula.generateMatricula();
 }
 

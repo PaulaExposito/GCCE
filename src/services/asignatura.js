@@ -1,4 +1,4 @@
-const Acceso = require('../models/Asignatura')
+const Asignatura = require('../models/Asignatura')
 
 // Database access methods
 
