@@ -21,6 +21,7 @@ const database = require('./config/database');
 
 const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
+const acceso = require('./services/acceso');
 
 for (let i = 0; i < 5; ++i) {
     console.log(i)
@@ -29,5 +30,9 @@ for (let i = 0; i < 5; ++i) {
 
 for (let i = 0; i < 2; ++i) {
     titulacion.generateTitulacion();
+}
+
+for (let i = 0; i < 4; ++i) {
+    acceso.generateAcceso();
 }
 
