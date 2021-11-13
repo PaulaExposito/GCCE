@@ -1,16 +1,20 @@
-const mongoose = require('mongoose');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 
-const Profesor = new mongoose.Schema({
-    cod_prof: Number,
-    asign_impartidas: Number,
-    nom_prof: String,
-    apellido1: String ,
-    apellido2: String,
-    catego: String,
-    year: Number,
-    tiempo_ull: Number,
-    num_sexe: Number,
-    sexe_act: Number,
-});
+const Profesor = (sequelize, Sequelize) => {
+    const {INTEGER, STRING, BOOLEAN} = Secuelize;
+    const Profesor = sequelize.define('Profesor', {
+        cod_prof: {type: INTEGER, primaryKey: true},
+        asign_impartidas: {type: INTEGER, primaryKey: false},
+        nom_prof: {type: STRING, primaryKey: false},
+        apellido1: {type: STRING, primaryKey: false},
+        apellido2: {type: STRING, primaryKey: false},
+        catego: {type: STRING, primaryKey: false},
+        year: {type: INTEGER, primaryKey: false},
+        tiempo_ull: {type: INTEGER, primaryKey: false},
+        num_sexe: {type: INTEGER, primaryKey: false},
+        sexe_act: {type: INTEGER, primaryKey: false}
+    });
+}
 
-module.exports = mongoose.model('Profesor', Profesor);
+module.exports = Profesor;
