@@ -1,12 +1,17 @@
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 
-const Acceso = new mongoose.Schema({
-    cod_alu: Number,
-    tipo_acceso: String,
-    nota_acceso: Number,
-    nota_med_bas: Number,
-    nota_med_esp: Number,
-    nota_bach: Number,
-});
+const Acceso = (secuelize, Secuelize) => {
+    const {INTEGER, STRING} = Secuelize;
+    const Acceso = sequelize.define('Acceso', {
+        cod_alu: {type: INTEGER, primaryKey: true},
+        tipo_acceso: {type: STRING, primaryKey: false},
+        nota_acceso: {type: INTEGER, primaryKey: false},
+        nota_med_bas: {type: INTEGER, primaryKey: false},
+        nota_med_esp: {type: INTEGER, primaryKey: false},
+        nota_bach: {type: INTEGER, primaryKey: false}
+    });
+}
 
-module.exports = mongoose.model('Acceso', Acceso);
+module.exports = Acceso;
