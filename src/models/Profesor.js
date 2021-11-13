@@ -2,7 +2,7 @@ const { Sequelize, Model, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
 
 const Profesor = (sequelize, Sequelize) => {
-    const {INTEGER, STRING, BOOLEAN} = Secuelize;
+    const {INTEGER, STRING} = Secuelize;
     const Profesor = sequelize.define('Profesor', {
         cod_prof: {type: INTEGER, primaryKey: true},
         asign_impartidas: {type: INTEGER, primaryKey: false},
