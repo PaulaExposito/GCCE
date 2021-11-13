@@ -1,0 +1,7 @@
+const NUMBER_OF_TITLES = 10;
+const NUMBER_OF_PROFESSORS = 100;
+
+module.exports = {
+    NUMBER_OF_TITLES,
+    NUMBER_OF_PROFESSORS
+}

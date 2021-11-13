@@ -14,7 +14,8 @@ const Asignatura = (sequelize, Sequelize) => {
                 key: 'cod_titulo'
             }
         },
-        profesor: {type: ARRAY, primaryKey: false},
+        profesor: {type: INTERGER, primaryKey: false},
+        // profesor: {type: ARRAY, primaryKey: false},
         dificultad: {type: STRING, primaryKey: false},
         cred_asig: {type: NUMBER, primaryKey: false},
         nom_asig: {type: STRING, primaryKey: false},
