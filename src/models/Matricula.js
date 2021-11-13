@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Matricula = new mongoose.Schema({
+    cod_matricula: Number,
     cod_alumno: Number,
     cred_aprobados: Number,
     cred_matriculados: Number,
