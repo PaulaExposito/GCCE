@@ -11,7 +11,7 @@ const ServiciosExternos = (sequelize, Sequelize) => {
             type: INTEGER,
             references: {
                 model: Alumno,
-                key: 'cod_alumno'
+                key: 'cod_alu'
             }
         },
         trabaja: {type: BOOLEAN, primaryKey: false},

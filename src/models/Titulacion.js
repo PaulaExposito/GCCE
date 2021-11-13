@@ -4,7 +4,7 @@ const sequelize = new Sequelize('sqlite::memory:');
 const Titulacion = (sequelize, Sequelize) => {
     const {INTEGER, STRING, ARRAY} = Secuelize;
     const Titulacion = sequelize.define('Titulacion', {
-        cod_titul: {type: INTEGER, primaryKey: true},
+        cod_titulo: {type: INTEGER, primaryKey: true},
         asignaturas: {type: ARRAY, primaryKey: false},
         num_cursos: {type: NUMBER, primaryKey: false},
         tip_titul: {type: STRING, primaryKey: false},

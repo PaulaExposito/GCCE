@@ -1,21 +1,5 @@
 // const express = require('express');
 const mysql = require('mysql');
-// const database = require('./config/database');
-// const app = express();
-
-
-// mongoose.connect(database.localUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-//     .then(db => console.log('Conectado a mongodb'))
-//     .catch(err => console.log(`Error con mongo: ${err}`));
-
-
-// app.get('/', function (req, res) {
-//     res.send('Hello World!');
-// })
-
-// const server = app.listen(8080, () => {
-//     console.log('Example app listening');
-// });
 
 let conexion= mysql.createConnection({
     host : 'localhost',
@@ -36,7 +20,7 @@ conexion.connect(function(err) {
 
 conexion.end();
 
-/*const alumno = require('./services/alumno');
+const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
 const acceso = require('./services/acceso');
 const asignatura = require('./services/asignatura');
@@ -81,4 +65,4 @@ for (let i = 0; i < 4; ++i) {
 
 for (let i = 0; i < 4; ++i) {
     serviciosexternos.generateServiciosExternos();
-}*/
+}

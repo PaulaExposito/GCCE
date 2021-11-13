@@ -1,7 +1,7 @@
-//const mongoose = require('mongoose');
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const Alumno = require('./Alumno');
 const sequelize = new Sequelize('sqlite::memory:');
+
+const Alumno = require('./Alumno');
 
 const Acceso = (secuelize, Secuelize) => {
     const {INTEGER, STRING} = Secuelize;

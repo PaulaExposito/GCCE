@@ -1,5 +1,6 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
+
 const Titulacion = require('./Titulacion');
 
 const Alumno = (sequelize, Sequelize) => {
@@ -24,7 +25,6 @@ const Alumno = (sequelize, Sequelize) => {
         niv_renta: {type: INTEGER, primaryKey: false},
         municipio: {type: STRING, primaryKey: false},
         provincia: {type: STRING, primaryKey: false},
-
     });
 }
 

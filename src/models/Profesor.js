@@ -11,9 +11,7 @@ const Profesor = (sequelize, Sequelize) => {
         apellido2: {type: STRING, primaryKey: false},
         catego: {type: STRING, primaryKey: false},
         year: {type: INTEGER, primaryKey: false},
-        tiempo_ull: {type: INTEGER, primaryKey: false},
-        num_sexe: {type: INTEGER, primaryKey: false},
-        sexe_act: {type: INTEGER, primaryKey: false}
+        tiempo_ull: {type: INTEGER, primaryKey: false}
     });
 }
 

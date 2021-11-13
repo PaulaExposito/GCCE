@@ -4,7 +4,7 @@ const sequelize = new Sequelize('sqlite::memory:');
 const Alumno = require('./Alumno');
 const Asignatura = require('./Asignatura');
 const Matricula = require('./Matricula');
-const Titulacion = require('./Titulo');
+const Titulacion = require('./Titulacion');
 const Profesor = require('./Profesor');
 
 const CalifAcademica = (sequelize, Sequelize) => {

@@ -11,7 +11,7 @@ const Matricula = (sequelize, Sequelize) => {
             type: INTEGER,
             references: {
                 model: Alumno,
-                key: 'cod_alumno'
+                key: 'cod_alu'
             }
         },
         cred_aprobados: {type: INTEGER, primaryKey: false},
