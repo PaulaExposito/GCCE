@@ -1,6 +1,6 @@
 // const express = require('express');
-const mongoose = require('mongoose');
-const database = require('./config/database');
+const mysql = require('mysql');
+// const database = require('./config/database');
 // const app = express();
 
 
@@ -17,9 +17,26 @@ const database = require('./config/database');
 //     console.log('Example app listening');
 // });
 
+let conexion= mysql.createConnection({
+    host : 'localhost',
+    database : 'GCCE',
+    user : 'root',
+    password : 'root',
+    port: 3306,
+    insecureAuth : true
+});
 
+conexion.connect(function(err) {
+    if (err) {
+        console.error('Error de conexion: ' + err.stack);
+        return;
+    }
+    console.log('Conectado con el identificador ' + conexion.threadId);
+});
 
-const alumno = require('./services/alumno');
+conexion.end();
+
+/*const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
 const acceso = require('./services/acceso');
 const asignatura = require('./services/asignatura');
@@ -64,4 +81,4 @@ for (let i = 0; i < 4; ++i) {
 
 for (let i = 0; i < 4; ++i) {
     serviciosexternos.generateServiciosExternos();
-}
+}*/
