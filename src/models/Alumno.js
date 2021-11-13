@@ -1,19 +1,30 @@
-const mongoose = require('mongoose');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 
-const Alumno = new mongoose.Schema({
-    // cod_alu: Number, // no hace falta -> mongo genera _id
-    cod_titulo: Number, // cambiar a mongoose.Types.ObjectId
-    estado: String,
-    nom_alu: String,
-    apellido1: String ,
-    apellido2: String,
-    sexo: String,
-    year: Number,
-    niv_est_prog1: String,
-    niv_est_prog2: String,
-    niv_renta: Number,
-    municipio: String,
-    provincia: String,
-});
+const Alumno = (sequelize, Sequelize) => {
+    const {INTEGER, STRING} = Secuelize;
+    const Alumno =  sequelize.define('Alumno', {
+        cod_alu: {type: INTEGER, primaryKey: true},
+        cod_titulo: {
+            type: INTEGER,
+            references: {
+                model: Titulacion,
+                key: 'cod_titulo'
+            }
+        },
+        estado: {type: STRING, primaryKey: false},
+        nom_alu: {type: STRING, primaryKey: false},
+        apellido1: {type: STRING, primaryKey: false},
+        apellido2: {type: STRING, primaryKey: false},
+        sexo: {type: STRING, primaryKey: false},
+        year: {type: INTEGER, primaryKey: false},
+        niv_est_prog1: {type: STRING, primaryKey: false},
+        niv_est_prog2: {type: STRING, primaryKey: false},
+        niv_renta: {type: INTEGER, primaryKey: false},
+        municipio: {type: STRING, primaryKey: false},
+        provincia: {type: STRING, primaryKey: false},
 
-module.exports = mongoose.model('Alumno', Alumno);
+    });
+}
+
+module.exports = Alumno;
