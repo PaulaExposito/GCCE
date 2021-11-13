@@ -1,10 +1,11 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
+
 const Alumno = require('./Alumno');
 const Asignatura = require('./Asignatura');
 const Matricula = require('./Matricula');
 const Titulacion = require('./Titulo');
 const Profesor = require('./Profesor');
-const sequelize = new Sequelize('sqlite::memory:');
 
 const CalifAcademica = (sequelize, Sequelize) => {
     const {INTEGER, STRING, BOOLEAN} = Secuelize;
