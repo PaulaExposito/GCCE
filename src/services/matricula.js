@@ -3,8 +3,8 @@ const Matricula = require('../models/Matricula')
 // Database access methods
 
 async function createMatricula(matriculaDTO) {
-    console.log(matriculaDTO);
-    console.log();
+    //console.log(matriculaDTO);
+    //console.log();
 }
 
 
@@ -19,11 +19,12 @@ function randomIntFromIntervalCredits(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min) * 6
 }
 
-function generateMatricula() {
+function generateMatricula(id, id_alu) {
     const yearBegin = randomIntFromInterval(2005,2021);
     const yearEnd = yearBegin + 1;
-    createMatricula({
-        //cod_alumno: Number,
+    const matricula = {
+        cod_matricula: id,
+        cod_alumno: id_alu,
         cred_aprobados: randomIntFromIntervalCredits(1,4),
         cred_matriculados: randomIntFromIntervalCredits(1,4),
         year: yearBegin + "/" + yearEnd,
@@ -32,7 +33,10 @@ function generateMatricula() {
         coste_credito: creditCost,
         beca: Math.random() < 0.5,
         cancela_matricula: Math.random() < 1,
-    });
+    }
+
+    createMatricula(matricula);
+    return matricula
 }
 
 module.exports = {
