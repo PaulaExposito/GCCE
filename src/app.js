@@ -21,7 +21,7 @@
 
 const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
-// const acceso = require('./services/acceso');
+const acceso = require('./services/acceso');
 const asignatura = require('./services/asignatura');
 // const matricula = require('./services/matricula');
 const profesor = require('./services/profesor');
@@ -39,6 +39,7 @@ let generatedTitles = [];
 let generatedSubjects = [];
 let generatedProfessor = [];
 let generatedStudents = [];
+let generatedAccess = [];
 
 for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
     generatedTitles.push(titulacion.generateTitle(i));
@@ -59,17 +60,17 @@ for (let i = 0; i < NUMBER_OF_TITLES; i++) {
     }
 }
 
-let aluCod = 0;
+cod = 0;
 for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-        let alu = randomIntFromInterval(0, NUMBER_OF_STUDENTS - 1);
-        generatedStudents.push(alumno.generateAlumno(aluCod++));
-        console.log(generatedStudents[aluCod - 1]);
+        generatedStudents.push(alumno.generateAlumno(cod++));
+        console.log(generatedStudents[cod - 1]);
 }
 
-
-// for (let i = 0; i < 4; ++i) {
-//     acceso.generateAcceso();
-// }
+cod = 0;
+for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
+    generatedAccess.push(acceso.generateAcceso(cod++));
+    console.log(generatedAccess[cod - 1]);
+}
 
 
 // for (let i = 0; i < 4; ++i) {
