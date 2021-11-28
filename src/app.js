@@ -25,9 +25,8 @@ const acceso = require('./services/acceso');
 const asignatura = require('./services/asignatura');
 const matricula = require('./services/matricula');
 const profesor = require('./services/profesor');
-// const notaebau = require('./services/notaebau');
 // const califacademica = require('./services/califacademica');
-// const serviciosexternos = require('./services/serviciosexternos');
+const serviciosexternos = require('./services/serviciosexternos');
 
 const { NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS, NUMBER_OF_STUDENTS } = require('./config/config');
 
@@ -68,6 +67,7 @@ let generatedProfessor = [];
 let generatedStudents = [];
 let generatedAccess = [];
 let generatedInscription = [];
+let generatedExternServices = [];
 
 for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
     generatedTitles.push(titulacion.generateTitle(i));
@@ -90,8 +90,8 @@ for (let i = 0; i < NUMBER_OF_TITLES; i++) {
 
 cod = 0;
 for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-        generatedStudents.push(alumno.generateAlumno(cod++));
-        console.log(generatedStudents[cod - 1]);
+    generatedStudents.push(alumno.generateAlumno(cod++));
+    console.log(generatedStudents[cod - 1]);
 }
 
 cod = 0;
@@ -106,13 +106,11 @@ for (let i = 0; i < NUMBER_OF_STUDENTS; i++) {
     console.log(generatedInscription[cod - 1]);
 }
 
-// for (let i = 0; i < 4; ++i) {
-//     profesor.generateProfesor();
-// }
-
-// for (let i = 0; i < 4; ++i) {
-//     notaebau.generateNotaEbau();
-// }
+cod = 0;
+for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
+    generatedExternServices.push(serviciosexternos.generateServiciosExternos(cod++));
+    console.log(generatedExternServices[cod - 1]);
+}
 
 // for (let i = 0; i < 4; ++i) {
 //     califacademica.generateCalifAcademica();

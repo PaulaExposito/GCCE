@@ -3,8 +3,8 @@ const ServiciosExternos = require('../models/ServiciosExternos')
 // Database access methods
 
 async function createServiciosExternos(asigDTO) {
-    console.log(asigDTO);
-    console.log();
+    //console.log(asigDTO);
+    //console.log();
 }
 
 
@@ -16,17 +16,19 @@ function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function generateServiciosExternos() {
+function generateServiciosExternos(id) {
     const work = Math.random() < 0.5;
     let money = 0;
     if(work) {
         money = randomIntFromInterval(10000, 30000);
     }
-    createServiciosExternos({
-        //cod_alumno: Number,
+    const servicio = {
+        cod_alumno: id,
         trabaja: work,
         sueldo: money
-    });
+    }
+    createServiciosExternos(servicio);
+    return servicio;
 }
 
 module.exports = {
