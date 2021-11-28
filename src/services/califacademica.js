@@ -3,8 +3,8 @@ const CalifAcademica = require('../models/CalifAcademica')
 // Database access methods
 
 async function createCalifAcademica(asigDTO) {
-    console.log(asigDTO);
-    console.log();
+    //console.log(asigDTO);
+    //console.log();
 }
 
 
@@ -16,7 +16,7 @@ function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function generateCalifAcademica() {
+function generateCalifAcademica(id_matricula, id_curso, id_titul, id_prof, id_alu, id_asig) {
     const calif = randomIntFromInterval(1,10);
     let califString = "";
     let noPresentado = true;
@@ -38,19 +38,20 @@ function generateCalifAcademica() {
             noPresentado = false;
         }
     }
-    createCalifAcademica({
-        //cod_matricula: Number,
-        // curso: Number,
-        //cod_titul: Number,
-        //cod_prof: Number ,
-        //cod_alu: Number,
-        //cod_asig: Number,
-        // grupo: Number,
+    const califAcad = {
+        cod_matricula: id_matricula,
+        curso: id_curso,
+        cod_titul: id_titul,
+        cod_prof: id_prof ,
+        cod_alu: id_alu,
+        cod_asig: id_asig,
         convocatoria: randomIntFromInterval(1,6),
         calif_num: calif,
         calificacion: califString,
         presentado: noPresentado
-    });
+    }
+    createCalifAcademica(califAcad);
+    return califAcad;
 }
 
 module.exports = {

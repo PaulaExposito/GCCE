@@ -1,6 +1,6 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
-S
+
 const Titulacion = require('./Titulacion');
 
 const Asignatura = (sequelize, Sequelize) => {

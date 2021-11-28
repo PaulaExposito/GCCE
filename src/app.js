@@ -25,7 +25,7 @@ const acceso = require('./services/acceso');
 const asignatura = require('./services/asignatura');
 const matricula = require('./services/matricula');
 const profesor = require('./services/profesor');
-// const califacademica = require('./services/califacademica');
+const califacademica = require('./services/califacademica');
 const serviciosexternos = require('./services/serviciosexternos');
 
 const { NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS, NUMBER_OF_STUDENTS } = require('./config/config');
@@ -68,6 +68,7 @@ let generatedStudents = [];
 let generatedAccess = [];
 let generatedInscription = [];
 let generatedExternServices = [];
+let generatedCalifAcademica = [];
 
 for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
     generatedTitles.push(titulacion.generateTitle(i));
@@ -112,10 +113,11 @@ for (let i = 0; i < NUMBER_OF_STUDENTS; i++) {
     console.log(generatedExternServices[cod - 1]);
 }
 
-// for (let i = 0; i < 4; ++i) {
-//     califacademica.generateCalifAcademica();
-// }
-
-// for (let i = 0; i < 4; ++i) {
-//     serviciosexternos.generateServiciosExternos();
-// }
+cod = 0;
+for (let i = 0; i < NUMBER_OF_STUDENTS; i++) {
+    const title = randomIntFromInterval(0, generatedTitles.length - 1)
+    const subject = randomIntFromInterval(0, generatedSubjects.length - 1)
+    generatedCalifAcademica.push(califacademica.generateCalifAcademica(generatedInscription[cod].cod_matricula, generatedSubjects[randomIntFromInterval(0, generatedSubjects.length - 1)].curso,
+    generatedTitles[title].cod_titul, generatedSubjects[subject].profesor, cod++, generatedSubjects[subject].cod_asig));
+    console.log(generatedCalifAcademica[cod - 1]);
+}
