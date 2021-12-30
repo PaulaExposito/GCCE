@@ -1,23 +1,6 @@
-// const mysql = require('mysql');
 
-// let conexion= mysql.createConnection({
-//     host : 'localhost',
-//     database : 'GCCE',
-//     user : 'root',
-//     password : 'root',
-//     port: 3306,
-//     insecureAuth : true
-// });
-
-// conexion.connect(function(err) {
-//     if (err) {
-//         console.error('Error de conexion: ' + err.stack);
-//         return;
-//     }
-//     console.log('Conectado con el identificador ' + conexion.threadId);
-// });
-
-// conexion.end();
+const { connectDatabase, disconnectDatabase } = require('./config/database.js');
+connectDatabase();
 
 const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
@@ -28,7 +11,7 @@ const profesor = require('./services/profesor');
 const califacademica = require('./services/califacademica');
 const serviciosexternos = require('./services/serviciosexternos');
 
-const { NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS, NUMBER_OF_STUDENTS } = require('./config/config');
+const { NUMBER_OF_COHORTS, NUMBER_OF_STUDENTS_BY_COHORT, NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS, NUMBER_OF_STUDENTS } = require('./config/config');
 
 let codAlusUsed = []
 
@@ -43,7 +26,7 @@ function aleatorio(min, max) {
         codAlusUsed.push(num);
         return num;
     } else {
-    return 0;
+        return 0;
     }
 }
 
@@ -70,54 +53,58 @@ let generatedInscription = [];
 let generatedExternServices = [];
 let generatedCalifAcademica = [];
 
+// Generación de títulos
 for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
     generatedTitles.push(titulacion.generateTitle(i));
     console.log(generatedTitles[i]);
 }
 
-for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
-    generatedProfessor.push(profesor.generateProfessor(i));
-    console.log(generatedProfessor[i]);
-}
+// for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
+//     generatedProfessor.push(profesor.generateProfessor(i));
+//     console.log(generatedProfessor[i]);
+// }
 
-let cod = 0;
-for (let i = 0; i < NUMBER_OF_TITLES; i++) { 
-    for (let j = 0; j < generatedTitles[i].asignaturas; j++) {
-        let prof = randomIntFromInterval(0, NUMBER_OF_PROFESSORS - 1);
-        generatedSubjects.push(asignatura.generateAsignatura(cod++, generatedTitles[i].cod_titul, generatedTitles[i].asignaturas, generatedProfessor[prof].cod_prof));
-        console.log(generatedSubjects[cod - 1]);
-    }
-}
+// let cod = 0;
+// for (let i = 0; i < NUMBER_OF_TITLES; i++) { 
+//     for (let j = 0; j < generatedTitles[i].asignaturas; j++) {
+//         let prof = randomIntFromInterval(0, NUMBER_OF_PROFESSORS - 1);
+//         generatedSubjects.push(asignatura.generateAsignatura(cod++, generatedTitles[i].cod_titul, generatedTitles[i].asignaturas, generatedProfessor[prof].cod_prof));
+//         console.log(generatedSubjects[cod - 1]);
+//     }
+// }
 
-cod = 0;
-for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-    generatedStudents.push(alumno.generateAlumno(cod++));
-    console.log(generatedStudents[cod - 1]);
-}
+// cod = 0;
+// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
+//     generatedStudents.push(alumno.generateAlumno(cod++));
+//     console.log(generatedStudents[cod - 1]);
+// }
 
-cod = 0;
-for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-    generatedAccess.push(acceso.generateAcceso(cod++));
-    console.log(generatedAccess[cod - 1]);
-}
+// cod = 0;
+// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
+//     generatedAccess.push(acceso.generateAcceso(cod++));
+//     console.log(generatedAccess[cod - 1]);
+// }
 
-cod = 0;
-for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-    generatedInscription.push(matricula.generateMatricula(cod++, aleatorio(0,999)));
-    console.log(generatedInscription[cod - 1]);
-}
+// cod = 0;
+// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
+//     generatedInscription.push(matricula.generateMatricula(cod++, aleatorio(0,999)));
+//     console.log(generatedInscription[cod - 1]);
+// }
 
-cod = 0;
-for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-    generatedExternServices.push(serviciosexternos.generateServiciosExternos(cod++));
-    console.log(generatedExternServices[cod - 1]);
-}
+// cod = 0;
+// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
+//     generatedExternServices.push(serviciosexternos.generateServiciosExternos(cod++));
+//     console.log(generatedExternServices[cod - 1]);
+// }
 
-cod = 0;
-for (let i = 0; i < NUMBER_OF_STUDENTS; i++) {
-    const title = randomIntFromInterval(0, generatedTitles.length - 1)
-    const subject = randomIntFromInterval(0, generatedSubjects.length - 1)
-    generatedCalifAcademica.push(califacademica.generateCalifAcademica(generatedInscription[cod].cod_matricula, generatedSubjects[randomIntFromInterval(0, generatedSubjects.length - 1)].curso,
-    generatedTitles[title].cod_titul, generatedSubjects[subject].profesor, cod++, generatedSubjects[subject].cod_asig));
-    console.log(generatedCalifAcademica[cod - 1]);
-}
+// cod = 0;
+// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) {
+//     const title = randomIntFromInterval(0, generatedTitles.length - 1)
+//     const subject = randomIntFromInterval(0, generatedSubjects.length - 1)
+//     generatedCalifAcademica.push(califacademica.generateCalifAcademica(generatedInscription[cod].cod_matricula, generatedSubjects[randomIntFromInterval(0, generatedSubjects.length - 1)].curso,
+//     generatedTitles[title].cod_titul, generatedSubjects[subject].profesor, cod++, generatedSubjects[subject].cod_asig));
+//     console.log(generatedCalifAcademica[cod - 1]);
+// }
+
+
+disconnectDatabase();

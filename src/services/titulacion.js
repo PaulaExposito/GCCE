@@ -1,4 +1,5 @@
 // const Titulacion = require('../models/Titulacion');
+const { conexion } = require('../config/database.js')
 
 // Database access methods
 
@@ -8,6 +9,20 @@ async function createTitulacion(titulacionDTO) {
     // if (titulacionDTO == null)  return;
     // const titulacion = new Titulacion(titulacionDTO);
     // await titulacion.save();
+
+    conexion.query("CREATE DATABASE Titulacion IF NOT EXISTS Titulacion", function (err, result) {
+        if (err) throw err;
+        console.log("Database created");
+    });
+
+    let sql = `
+        INSERT INTO Titulacion (id, cod_titulo, asignaturas, num_cursos, tit_titul, tit_estud, total_cred, p_abandono) VALUES ?
+    `
+    conexion.query(sql, [titulacionDTO], function (err, result) {
+        if (err) throw err;
+        console.log("Number of records inserted: " + result.affectedRows);
+    });
+
 }
 
 // async function getAllTitulaciones() {
@@ -22,7 +37,7 @@ async function createTitulacion(titulacionDTO) {
 
 // Generate random data
 
-const masterCred = [ 60, 72, 180 ];
+const masterCred = [ 60, 120 ];
 const studieTypes = require('../config/data').titles;
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -30,15 +45,15 @@ function randomIntFromInterval(min, max) { // min and max included
 }
 
 function generateTitulacion(id, gradeType, credits) {
-    const title = {
-        cod_titul: id,
-        asignaturas: numberOfSubjects(gradeType),
-        num_cursos: numberOfYears(gradeType),
-        tip_titul: gradeType,
-        tip_estud: studieTypes[id],
-        total_cred: credits,
-        p_abandono: getTitleAbandon(id),
-    }
+    const title = [
+        id,
+        credits / 6,
+        numberOfYears(gradeType, credits),
+        gradeType,
+        studieTypes[id],
+        credits,
+        getTitleAbandon(id),
+    ]
 
     createTitulacion(title)
     return title;
@@ -50,7 +65,7 @@ function generateTitle(id) {
         return generateTitulacion(id, "grado", 240)
     }
     else {
-        const masterType = randomIntFromInterval(0,2);
+        const masterType = randomIntFromInterval(0,1);
         return generateTitulacion(id, "master", masterCred[masterType])
     }
 }
@@ -62,18 +77,10 @@ function getTitleAbandon(id) {
         return randomIntFromInterval(0, 50);
 }
 
-function numberOfSubjects(type) {
-    if (type == "grado")
-        return 40;
-    else 
-        return randomIntFromInterval(0, 1) == 0 ? 10 : 20;
+function numberOfYears(gradeType, credits) {
+    if (gradeType == "grado") return 4;
+    else return (credits / 6) / 10;
 }
-
-function numberOfYears(type) {
-    if (type == "grado") return 4;
-    else return randomIntFromInterval(0, 1);
-}
-
 
 module.exports = {
     generateTitle

@@ -1,9 +1,9 @@
 const titles = [
     "Ingenieria informatica", 
     "Ingenieria nautica", 
-    "Filologia española",
+    "Fisica",
     "Filosofia", 
-    "Ciencias",
+    "Matematicas",
     "Derecho",
     "Biologia", 
     "Economia",
