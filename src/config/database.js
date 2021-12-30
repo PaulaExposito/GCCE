@@ -5,6 +5,17 @@
 
 const mysql = require('mysql');
 
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize(
+   'GCCE', // TutorialsPoint
+   'root', // root
+   'root', 
+   {
+      dialect: 'mysql',
+      host: 'localhost'
+   }
+);
+
 let conexion = mysql.createConnection({
     host : 'localhost',
     database : 'GCCE',
@@ -31,5 +42,6 @@ function disconnectDatabase() {
 module.exports = {
     connectDatabase,
     conexion,
-    disconnectDatabase
+    disconnectDatabase,
+    sequelize
 }

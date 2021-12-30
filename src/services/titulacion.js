@@ -1,23 +1,16 @@
-// const Titulacion = require('../models/Titulacion');
-const { conexion } = require('../config/database.js')
+const {Titulacion} = require('../models/Titulacion');
+const { conexion, sequelize } = require('../config/database.js')
 
 // Database access methods
 
-async function createTitulacion(titulacionDTO) {
+function createTitulacion(titulacionDTO) {
     // console.log(titulacionDTO);
     // console.log();
     // if (titulacionDTO == null)  return;
     // const titulacion = new Titulacion(titulacionDTO);
     // await titulacion.save();
 
-    conexion.query("CREATE DATABASE Titulacion IF NOT EXISTS Titulacion", function (err, result) {
-        if (err) throw err;
-        console.log("Database created");
-    });
-
-    let sql = `
-        INSERT INTO Titulacion (id, cod_titulo, asignaturas, num_cursos, tit_titul, tit_estud, total_cred, p_abandono) VALUES ?
-    `
+    let sql = `INSERT INTO Titulacions (cod_titulo, asignaturas, num_cursos, tip_titul, tip_estud, total_cred, p_abandono) VALUES ?`
     conexion.query(sql, [titulacionDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
@@ -55,7 +48,7 @@ function generateTitulacion(id, gradeType, credits) {
         getTitleAbandon(id),
     ]
 
-    createTitulacion(title)
+    createTitulacion([title])
     return title;
 }
 

@@ -1,5 +1,5 @@
 
-const { connectDatabase, disconnectDatabase } = require('./config/database.js');
+const { connectDatabase, disconnectDatabase, sequelize } = require('./config/database.js');
 connectDatabase();
 
 const alumno = require('./services/alumno');
@@ -53,11 +53,24 @@ let generatedInscription = [];
 let generatedExternServices = [];
 let generatedCalifAcademica = [];
 
+
 // Generación de títulos
-for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
-    generatedTitles.push(titulacion.generateTitle(i));
-    console.log(generatedTitles[i]);
+
+function Generate() {
+
+    sequelize.sync().then(() => {
+    
+        for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
+            generatedTitles.push(titulacion.generateTitle(i));
+            console.log(generatedTitles[i]);
+        }
+        
+        disconnectDatabase();
+
+    })
 }
+
+Generate();
 
 // for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
 //     generatedProfessor.push(profesor.generateProfessor(i));
@@ -107,4 +120,3 @@ for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
 // }
 
 
-disconnectDatabase();
