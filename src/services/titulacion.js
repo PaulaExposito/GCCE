@@ -1,15 +1,9 @@
-const {Titulacion} = require('../models/Titulacion');
-const { conexion, sequelize } = require('../config/database.js')
+const { conexion } = require('../config/database.js');
+const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 function createTitulacion(titulacionDTO) {
-    // console.log(titulacionDTO);
-    // console.log();
-    // if (titulacionDTO == null)  return;
-    // const titulacion = new Titulacion(titulacionDTO);
-    // await titulacion.save();
-
     let sql = `INSERT INTO Titulacions (cod_titulo, asignaturas, num_cursos, tip_titul, tip_estud, total_cred, p_abandono) VALUES ?`
     conexion.query(sql, [titulacionDTO], function (err, result) {
         if (err) throw err;
@@ -18,24 +12,11 @@ function createTitulacion(titulacionDTO) {
 
 }
 
-// async function getAllTitulaciones() {
-//     const titulacion = await Titulacion.find();
-//     console.log(titulacion);
-// }
-
-// async function removeAllTitulaciones() {
-//     await Titulacion.remove({});
-// }
-
 
 // Generate random data
 
 const masterCred = [ 60, 120 ];
 const studieTypes = require('../config/data').titles;
-
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 function generateTitulacion(id, gradeType, credits) {
     const title = [
@@ -48,7 +29,7 @@ function generateTitulacion(id, gradeType, credits) {
         getTitleAbandon(id),
     ]
 
-    createTitulacion([title])
+    //await createTitulacion([title]);
     return title;
 }
 
@@ -65,7 +46,7 @@ function generateTitle(id) {
 
 function getTitleAbandon(id) {
     if (id < studieTypes.length / 2)
-        return randomIntFromInterval(30, 80);
+        return randomIntFromInterval(30, 70);
     else 
         return randomIntFromInterval(0, 50);
 }

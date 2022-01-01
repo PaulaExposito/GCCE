@@ -1,31 +1,38 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const { sequelize } = require('../config/database');
 
 const Titulacion = require('./Titulacion');
 
-const Alumno = (sequelize, Sequelize) => {
-    const {INTEGER, STRING} = Secuelize;
-    const Alumno =  sequelize.define('Alumno', {
-        cod_alu: {type: INTEGER, primaryKey: true},
+const Alumno = sequelize.define(
+    'Alumno', 
+    {
+        cod_alu: {type: DataTypes.INTEGER, primaryKey: true},
         cod_titulo: {
-            type: INTEGER,
+            type: DataTypes.INTEGER,
             references: {
                 model: Titulacion,
                 key: 'cod_titulo'
             }
         },
-        estado: {type: STRING, primaryKey: false},
-        nom_alu: {type: STRING, primaryKey: false},
-        apellido1: {type: STRING, primaryKey: false},
-        apellido2: {type: STRING, primaryKey: false},
-        sexo: {type: STRING, primaryKey: false},
-        year: {type: INTEGER, primaryKey: false},
-        niv_est_prog1: {type: STRING, primaryKey: false},
-        niv_est_prog2: {type: STRING, primaryKey: false},
-        niv_renta: {type: INTEGER, primaryKey: false},
-        municipio: {type: STRING, primaryKey: false},
-        provincia: {type: STRING, primaryKey: false},
-    });
-}
+        estado: {type: DataTypes.STRING, primaryKey: false},
+        nom_alu: {type: DataTypes.STRING, primaryKey: false},
+        apellido1: {type: DataTypes.STRING, primaryKey: false},
+        apellido2: {type: DataTypes.STRING, primaryKey: false},
+        sexo: {type: DataTypes.STRING, primaryKey: false},
+        year: {type: DataTypes.INTEGER, primaryKey: false},
+        niv_est_prog1: {type: DataTypes.STRING, primaryKey: false},
+        niv_est_prog2: {type: DataTypes.STRING, primaryKey: false},
+        niv_renta: {type: DataTypes.INTEGER, primaryKey: false},
+        municipio: {type: DataTypes.STRING, primaryKey: false},
+        provincia: {type: DataTypes.STRING, primaryKey: false},
+        _zona: {type: DataTypes.STRING, primaryKey: false},
+        
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
+    },
+    {
+        freezeTableName: true
+    }
+);
 
 module.exports = Alumno;

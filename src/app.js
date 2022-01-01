@@ -1,6 +1,6 @@
 
 const { connectDatabase, disconnectDatabase, sequelize } = require('./config/database.js');
-connectDatabase();
+// connectDatabase();
 
 const alumno = require('./services/alumno');
 const titulacion = require('./services/titulacion');
@@ -11,7 +11,7 @@ const profesor = require('./services/profesor');
 const califacademica = require('./services/califacademica');
 const serviciosexternos = require('./services/serviciosexternos');
 
-const { NUMBER_OF_COHORTS, NUMBER_OF_STUDENTS_BY_COHORT, NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS, NUMBER_OF_STUDENTS } = require('./config/config');
+const { NUMBER_OF_COHORTS, NUMBER_OF_STUDENTS_BY_COHORT, NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS } = require('./config/config');
 
 let codAlusUsed = []
 
@@ -56,26 +56,40 @@ let generatedCalifAcademica = [];
 
 // Generación de títulos
 
-function Generate() {
+// sequelize.sync().then(() => {
 
-    sequelize.sync().then(() => {
-    
-        for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
-            generatedTitles.push(titulacion.generateTitle(i));
-            console.log(generatedTitles[i]);
+    /// Generar Titulaciones
+    for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
+        generatedTitles.push(titulacion.generateTitle(i));
+        // console.log(generatedTitles[i]);
+    }
+
+    /// Generar profesores
+    for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
+        generatedProfessor.push(profesor.generateProfessor(i));
+        // console.log(generatedProfessor[i].toString());
+    }
+
+    /// Generar Alumnos && Acceso
+    let cod = 0;
+    for (let i = 0; i < NUMBER_OF_COHORTS; i++) {   
+        for (let j = 0; j < NUMBER_OF_TITLES; j++) {  
+            for (let k = 0; k < NUMBER_OF_STUDENTS_BY_COHORT; k++) { 
+                generatedAccess.push(acceso.generateAcceso(cod));
+                generatedStudents.push(alumno.generateAlumno(cod, generatedTitles[j], i, generatedAccess[cod]));
+                cod++;
+                if (cod - 1 == 0) {
+                    console.log(generatedStudents[cod - 1]);
+                    console.log(generatedAccess[cod - 1]);
+                }
+            }
         }
-        
-        disconnectDatabase();
+    }
 
-    })
-}
+//     disconnectDatabase();
+// });
 
-Generate();
 
-// for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
-//     generatedProfessor.push(profesor.generateProfessor(i));
-//     console.log(generatedProfessor[i]);
-// }
 
 // let cod = 0;
 // for (let i = 0; i < NUMBER_OF_TITLES; i++) { 
@@ -86,17 +100,12 @@ Generate();
 //     }
 // }
 
-// cod = 0;
-// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-//     generatedStudents.push(alumno.generateAlumno(cod++));
-//     console.log(generatedStudents[cod - 1]);
-// }
 
-// cod = 0;
-// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-//     generatedAccess.push(acceso.generateAcceso(cod++));
-//     console.log(generatedAccess[cod - 1]);
-// }
+
+
+
+
+
 
 // cod = 0;
 // for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 

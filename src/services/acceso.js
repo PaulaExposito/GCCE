@@ -1,40 +1,36 @@
 const Acceso = require('../models/Acceso')
+const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createAcceso(accesoDTO) {
-    console.log(accesoDTO);
-    console.log();
-}
-
-async function removeAllAccesos() {
-    await Acceso.remove({});
+    let sql = `INSERT INTO Acceso (cod_alu, tipo_acceso, nota_acceso, nota_med_bas, nota_med_esp, nota_bach) VALUES ?`
+    conexion.query(sql, [accesoDTO], function (err, result) {
+        if (err) throw err;
+        console.log("Number of records inserted: " + result.affectedRows);
+    });
 }
 
 // Generate random data
 
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-const accessType = ["EBAU", "FP", "Otra carrera"];
-
+const accessType = require('../config/data').accessType;
 
 function generateAcceso(id) {
     const notaMedBas = randomIntFromInterval(5, 10);
     const notaMedEsp = randomIntFromInterval(5, 10);
     const notaBach= randomIntFromInterval(5, 10);
-    const accessMark = notaMedBas * 0.4 + notaMedEsp * 0.1 + notaBach * 0.6;
+    const accessMark = Math.round((notaMedBas * 0.4 + notaMedEsp * 0.4 + notaBach * 0.6) / 1.4 * 100) / 100;
     
-    const access = {
-        cod_alu: id,
-        tipo_acceso: accessType[Math.floor(Math.random() * accessType.length)],
-        nota_acceso: accessMark,
-        nota_med_bas: notaMedBas,
-        nota_med_esp: notaMedEsp,
-        nota_bach: notaBach
-    }
-    createAcceso(access);
+    const access = [
+        id,
+        accessType[Math.floor(Math.random() * accessType.length)],
+        accessMark,
+        notaMedBas,
+        notaMedEsp,
+        notaBach
+    ]
+
+    //await createAcceso(access);
     return access;
 }
 

@@ -1,46 +1,86 @@
-const Alumno = require('../models/Alumno');
-
-const FIRST_YEAR_DATA = 1995;
-const LAST_YEAR_DATA = 2021;
-
+const { conexion } = require('../config/database.js');
+const { randomIntFromInterval, getInitYear } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createAlumno(alumnoDTO) {
-    console.log(alumnoDTO);
-    console.log();
-    // if (alumnoDTO == null)  return;
-    // const alumno = new Alumno(alumnoDTO);
-    // await alumno.save();
-}
 
-async function getAllAlumnos() {
-    const alumnos = await Alumno.find();
-    console.log(alumnos);
-}
-
-async function removeAllAlumnos() {
-    await Alumno.remove({});
+    let sql = `INSERT INTO Alumno (cod_alu, cod_titulo, estado, nom_alu, apellido1, apellido2, sexo, year, niv_est_prog1, niv_est_prog2, niv_renta, municipio, provincia, _zona) VALUES ?`
+    conexion.query(sql, [alumnoDTO], function (err, result) {
+        if (err) throw err;
+        console.log("Number of records inserted: " + result.affectedRows);
+    });
 }
 
 
 // Generate random data
 
-const titleCodesList = [0, 1, 2, 3, 4, 5, 6]; // TODO: coger títulos que existan (habría que crear primero las titulaciones)
-const titleStatus = ["activo", "pausado", "graduado", "abandono"];
-const maleNames = ["Paco", "Roberto", "Lucas", "Pepe"];
-const femaleNames = ["Maria", "Lucia", "Andrea"];
-const lastnames = ["Garcia", "Gonzalez", "Rodriguez", "Fernandez", "Lopez", "Martinez", "Sanchez", "Perez", "Gomez", "Martin", "Jimenez", "Ruiz", "Hernandez", "Diaz", "Moreno", "Alvarez", "Muñoz", "Romero", "Alonso", "Gutierrez", "Navarro", "Torres", "Dominguez",
-"Vazquez", "Ramos", "Gil", "Ramirez", "Serrano", "Blanco", "Suarez", "Molina", "Morales", "Ortega", "Delgado", "Castro", "Ortiz", "Rubio", "Marin", "Sanz", "Nuñez", "Iglesias", "Medina", "Garrido", "Santos", "Castillo", "Cortes", "Lozano", "Guerrero", "Cano", "Prieto", "Mendez", "Calvo", "Cruz", "Gallego", "Vidal", "Leon", "Herrera", "Marquez", "Peña", "Cabrera", "Flores", "Campos", "Vega", "Diez", "Fuentes", "Carrasco", "Caballero", "Nieto", "Reyes", "Aguilar", "Pascual", "Herrero", "Santana", "Lorenzo", "Hidalgo", "Montero", "Ibañez", "Gimenez", "Ferrer", "Duran", "Vicente", "Benitez", "Mora", "Santiago", "Arias", "Vargas", "Carmona", "Crespo", "Roman", "Pastor", "Soto", "Saez", "Velasco", "Soler", "Moya", "Esteban", "Parra", "Bravo", "Gallardo", "Rojas", "Pardo", "Merino", "Franco", "Espinosa", "Izquierdo", "Lara", "Rivas", "Silva", "Rivera", "Casado", "Arroyo", "Redondo", "Camacho", "Rey", "Vera", "Otero", "Luque", "Galan", "Montes", "Rios", "Sierra", "Segura", "Carrillo", "Marcos", "Marti", "Soriano", "Mendoza"];
-const gender = ["masculino", "femenino", "otro", "-"];
-const educationalLevel = ["analfabeto", "primaria", "eso/egb", "bachillerato", "ciclo medio", "ciclo superior", "universitario"];
-const rentLevel = ["bajo", "medio", "alto"];
-const townships = ["La Orotava", "La Laguna", "La Victoria", "El Rosario", "Garachico"];
-const provinces = ["Santa Cruz de Tenerife", "Cadiz", "Zaragoza"];
+const titleStatus = require('../config/data').titleStatus;
+const names = require('../config/data').names;
+const lastnames = require('../config/data').lastnames;
+const gender = require('../config/data').gender;
+const educationalLevel = require('../config/data').educationalLevel;
+const rentLevel = require('../config/data').rentLevel;
+const townships = require('../config/data').townships;
+
+function randomState(abandonProb, notaAcceso) {
+    const randomNumber = randomIntFromInterval(1, 10);
+    if( abandonProb < 30 || notaAcceso > 9 ) {
+        return randomNumber < 3 ? titleStatus[2] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+    }
+    else if ( (abandonProb >= 30 && abandonProb < 50) || notaAcceso > 6) {
+        return randomNumber < 4 ? titleStatus[0] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+    }
+    else {
+        return randomNumber < 4 ? titleStatus[3] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+    }
+}
 
 
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
+function randomTownship() {
+    const randtownships = townships[Math.floor(Math.random() * townships.length)];
+    const randomLevel = Math.floor(Math.random() * educationalLevel.length);
+    const randomNumber = randomIntFromInterval(1, 5) % 5;
+
+    switch (randtownships.zone) {
+        case "Pueblo":
+            if (randomNumber >= 0 && randomNumber < 3) {
+                randtownships.level = educationalLevel[(randomLevel + 4) % educationalLevel.length];
+            }
+            else {
+                randtownships.level = educationalLevel[randomLevel];
+            }
+        break;
+        case "Ciudad":
+            if (randomNumber >= 0 && randomNumber < 4) {
+                randtownships.level = educationalLevel[randomLevel];
+            }
+            else {
+                randtownships.level = educationalLevel[(randomLevel + 4) % educationalLevel.length];
+            }
+
+        break;
+        default: throw Error();
+    }
+    return randtownships;
+
+}
+
+function getRentLevel(townshipProg1, townshipProg2) {
+    const randomNumber = Math.floor(Math.random() * rentLevel.length) % 6;
+    if (townshipProg1.zone == townshipProg2.zone == "Pueblo") {
+        return (randomNumber < 2) ? rentLevel[0] :
+                    (randomNumber < 6) ? rentLevel[1] :
+                        rentLevel[2];
+    }
+    else if (townshipProg1.zone == townshipProg2.zone == "Ciudad") {
+        return (randomNumber < 2) ? [0] : 
+                    (randomNumber < 5) ? rentLevel[2] :
+                        rentLevel[1]   
+    }
+    else {
+        return (randomNumber < 3) ? rentLevel[1] : rentLevel[2];
+    }
 }
 
 function randomGender() {
@@ -54,27 +94,29 @@ function randomGender() {
     }
 }
 
-
-function generateAlumno(id) {
+function generateAlumno(id, titulacion, cohorte, acceso) {
     const gender = randomGender();
-    const student = {
-        cod_alu: id,
-        cod_titulo: titleCodesList[Math.floor(Math.random() * titleCodesList.length)],
-        estado: titleStatus[Math.floor(Math.random() * titleStatus.length)],
-        nom_alu: gender === "masculino" ? maleNames[Math.floor(Math.random() * maleNames.length)] : femaleNames[Math.floor(Math.random() * femaleNames.length)],
-        apellido1: lastnames[Math.floor(Math.random() * lastnames.length)],
-        apellido2: lastnames[Math.floor(Math.random() * lastnames.length)],
-        sexo: gender,
-        year: randomIntFromInterval(FIRST_YEAR_DATA, LAST_YEAR_DATA),
-        niv_est_prog1: educationalLevel[Math.floor(Math.random() * educationalLevel.length)],
-        niv_est_prog2: educationalLevel[Math.floor(Math.random() * educationalLevel.length)],
-        niv_renta: rentLevel[Math.floor(Math.random() * rentLevel.length)],
-        municipio: townships[Math.floor(Math.random() * townships.length)],
-        provincia: provinces[Math.floor(Math.random() * provinces.length)],
-    }
+    const townshipProg1 = randomTownship();
+    const townshipProg2 = randomTownship();
+    const student = [
+        id,
+        titulacion[0],
+        randomState(titulacion[6], acceso[2]),
+        names[Math.floor(Math.random() * names.length)],
+        lastnames[Math.floor(Math.random() * lastnames.length)],
+        lastnames[Math.floor(Math.random() * lastnames.length)],
+        gender,
+        getInitYear(cohorte),
+        townshipProg1.level,
+        townshipProg2.level,
+        getRentLevel(townshipProg1, townshipProg2),
+        townshipProg1.town,
+        townshipProg1.provinces,
+        townshipProg1.zone
+    ];
 
-    createAlumno(student);
-    return student
+    //await createAlumno(student);
+    return student;
 }
 
 

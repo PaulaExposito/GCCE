@@ -151,16 +151,98 @@ const names = [
 ];
 
 const categories = [
-    "Historia", 
-    "Filologia", 
-    "Informatica", 
-    "Matematicas", 
-    "Fisica"
+    "Letras", 
+    "Ciencias sociales",
+    "Humanidades", 
+    "Ingenieria", 
+    "Ciencias",
+    "Artes"
 ]
+
+const titleStatus = [
+    "activo", 
+    "pausado", 
+    "graduado", 
+    "abandono"
+];
+
+const educationalLevel = [
+    "analfabeto", 
+    "primaria", 
+    "eso/egb", 
+    "bachillerato", 
+    "ciclo medio", 
+    "ciclo superior", 
+    "universitario"
+];
+
+const gender = [
+    "masculino", 
+    "femenino", 
+    "otro", 
+    "no binario"
+];
+
+const townships = [
+    {
+        town: "La Orotava", 
+        zone: "Pueblo",
+        provinces: "Santa Cruz de Tenerife",
+    },
+    {
+        town: "La Laguna", 
+        zone: "Ciudad",
+        provinces: "Santa Cruz de Tenerife",
+    },
+    {
+        town: "La Victoria", 
+        zone: "Pueblo",
+        provinces: "Santa Cruz de Tenerife",
+    },
+    {
+        town: "Garachico", 
+        zone: "Pueblo",
+        provinces: "Santa Cruz de Tenerife",
+    },
+    {
+        town: "Santa Cruz", 
+        zone: "Ciudad",
+        provinces: "Santa Cruz de Tenerife",
+    },
+    {
+        town: "La Palmas", 
+        zone: "Ciudad",
+        provinces: "Las Palmas de Gran Canaria",
+    },
+    {
+        town: "Santa Maria de Guia", 
+        zone: "Pueblo",
+        provinces: "Las Palmas de Gran Canaria",
+    },
+]
+
+const rentLevel = [
+    "bajo", 
+    "medio", 
+    "alto"
+];
+
+const accessType = [
+    "EBAU", 
+    "FP", 
+    "Otra carrera"
+];
+
 
 module.exports = {
     titles,
     lastnames,
     names,
     categories,
+    titleStatus,
+    educationalLevel,
+    gender,
+    townships,
+    rentLevel,
+    accessType,
 }

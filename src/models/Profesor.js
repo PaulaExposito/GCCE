@@ -1,18 +1,23 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const { sequelize } = require('../config/database');
 
-const Profesor = (sequelize, Sequelize) => {
-    const {INTEGER, STRING} = Secuelize;
-    const Profesor = sequelize.define('Profesor', {
-        cod_prof: {type: INTEGER, primaryKey: true},
-        asign_impartidas: {type: INTEGER, primaryKey: false},
-        nom_prof: {type: STRING, primaryKey: false},
-        apellido1: {type: STRING, primaryKey: false},
-        apellido2: {type: STRING, primaryKey: false},
-        catego: {type: STRING, primaryKey: false},
-        year: {type: INTEGER, primaryKey: false},
-        tiempo_ull: {type: INTEGER, primaryKey: false}
-    });
-}
+const Profesor = sequelize.define(
+    'Profesor', 
+    {
+        cod_prof: {type: DataTypes.INTEGER, primaryKey: true},
+        asign_impartidas: {type: DataTypes.INTEGER, primaryKey: false},
+        nom_prof: {type: DataTypes.STRING, primaryKey: false},
+        apellido1: {type: DataTypes.STRING, primaryKey: false},
+        apellido2: {type: DataTypes.STRING, primaryKey: false},
+        catego: {type: DataTypes.STRING, primaryKey: false},
+        year: {type: DataTypes.INTEGER, primaryKey: false},
+        tiempo_ull: {type: DataTypes.INTEGER, primaryKey: false},
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
+    },
+    {
+        freezeTableName: true
+    }
+);
 
 module.exports = Profesor;
