@@ -21,7 +21,7 @@ const studieTypes = require('../config/data').titles;
 function generateTitulacion(id, gradeType, credits) {
     const title = [
         id,
-        credits / 6,
+        credits / 6 - 2,
         numberOfYears(gradeType, credits),
         gradeType,
         studieTypes[id],

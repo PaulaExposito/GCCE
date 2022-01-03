@@ -11,7 +11,14 @@ const profesor = require('./services/profesor');
 const califacademica = require('./services/califacademica');
 const serviciosexternos = require('./services/serviciosexternos');
 
-const { NUMBER_OF_COHORTS, NUMBER_OF_STUDENTS_BY_COHORT, NUMBER_OF_TITLES, NUMBER_OF_PROFESSORS } = require('./config/config');
+const { 
+    NUMBER_OF_COHORTS, 
+    NUMBER_OF_STUDENTS_BY_COHORT, 
+    NUMBER_OF_TITLES, 
+    NUMBER_OF_PROFESSORS 
+} = require('./config/config');
+
+const { randomIntFromInterval, getNumberOfMatriculas } = require('./utils/utils');
 
 let codAlusUsed = []
 
@@ -40,9 +47,6 @@ function repetido(num) {
     return repe;
 }
 
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 let generatedTitles = [];
 let generatedSubjects = [];
@@ -50,37 +54,79 @@ let generatedProfessor = [];
 let generatedStudents = [];
 let generatedAccess = [];
 let generatedInscription = [];
-let generatedExternServices = [];
+let generatedExternalServices = [];
 let generatedCalifAcademica = [];
 
 
 // Generación de títulos
 
 // sequelize.sync().then(() => {
-
-    /// Generar Titulaciones
-    for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
-        generatedTitles.push(titulacion.generateTitle(i));
-        // console.log(generatedTitles[i]);
-    }
-
+    
     /// Generar profesores
     for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
         generatedProfessor.push(profesor.generateProfessor(i));
         // console.log(generatedProfessor[i].toString());
     }
 
-    /// Generar Alumnos && Acceso
     let cod = 0;
+
+    /// Generar Titulaciones
+    for (let i = 0; i < NUMBER_OF_TITLES; ++i) {
+        generatedTitles.push(titulacion.generateTitle(i));
+        // console.log(generatedTitles[i]);
+        let secret = [0,0];
+        for (let j = 0; j < generatedTitles[i][1]; j++) {
+            let prof = randomIntFromInterval(0, NUMBER_OF_PROFESSORS - 1);
+            generatedSubjects.push(asignatura.generateAsignatura(cod++, 
+                                                                 generatedTitles[i][0], 
+                                                                 generatedTitles[i][1], 
+                                                                 generatedProfessor[prof][0],
+                                                                 secret));
+            // if (i == 0) { 
+            //     console.log(generatedTitles[i]);
+            //     console.log(generatedSubjects[cod - 1]); 
+            // }
+        }
+    }
+
+    cod = 0;
+    let codMatricula = 0;
+    /// Generar Alumnos && Acceso && ServiciosExternos
     for (let i = 0; i < NUMBER_OF_COHORTS; i++) {   
         for (let j = 0; j < NUMBER_OF_TITLES; j++) {  
             for (let k = 0; k < NUMBER_OF_STUDENTS_BY_COHORT; k++) { 
+
+                // TODO: borrar
+                if (i != 0 || j != 0 || k != 0) return 0;
+
                 generatedAccess.push(acceso.generateAcceso(cod));
                 generatedStudents.push(alumno.generateAlumno(cod, generatedTitles[j], i, generatedAccess[cod]));
+                generatedExternalServices.push(serviciosexternos.generateServiciosExternos(cod, generatedTitles[j]));
+
+                const numMatriculas = getNumberOfMatriculas(generatedStudents[cod], generatedTitles[j]);
+                for (let l = 0; l < numMatriculas; l++) {
+                    const previousInscription = (l == 0 ? null : generatedInscription[codMatricula - 1]);
+                    generatedInscription.push(
+                        matricula.generateMatricula(codMatricula, 
+                                                    generatedStudents[cod], 
+                                                    l,
+                                                    previousInscription,
+                                                    generatedTitles[j],
+                                                    generatedExternalServices[cod][2]));
+                        
+                    // Probably needs to generate here califAcademic to pass it to next inscription
+
+                    codMatricula++;
+                }
+
                 cod++;
+
                 if (cod - 1 == 0) {
                     console.log(generatedStudents[cod - 1]);
-                    console.log(generatedAccess[cod - 1]);
+                //     console.log(generatedTitles[j]);
+                //     console.log(generatedAccess[cod - 1]);
+                //     console.log(generatedExternalServices[cod - 1]);
+                    console.log(generatedInscription[0]);
                 }
             }
         }
@@ -90,34 +136,6 @@ let generatedCalifAcademica = [];
 // });
 
 
-
-// let cod = 0;
-// for (let i = 0; i < NUMBER_OF_TITLES; i++) { 
-//     for (let j = 0; j < generatedTitles[i].asignaturas; j++) {
-//         let prof = randomIntFromInterval(0, NUMBER_OF_PROFESSORS - 1);
-//         generatedSubjects.push(asignatura.generateAsignatura(cod++, generatedTitles[i].cod_titul, generatedTitles[i].asignaturas, generatedProfessor[prof].cod_prof));
-//         console.log(generatedSubjects[cod - 1]);
-//     }
-// }
-
-
-
-
-
-
-
-
-// cod = 0;
-// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-//     generatedInscription.push(matricula.generateMatricula(cod++, aleatorio(0,999)));
-//     console.log(generatedInscription[cod - 1]);
-// }
-
-// cod = 0;
-// for (let i = 0; i < NUMBER_OF_STUDENTS; i++) { 
-//     generatedExternServices.push(serviciosexternos.generateServiciosExternos(cod++));
-//     console.log(generatedExternServices[cod - 1]);
-// }
 
 // cod = 0;
 // for (let i = 0; i < NUMBER_OF_STUDENTS; i++) {

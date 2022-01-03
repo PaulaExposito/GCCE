@@ -233,6 +233,29 @@ const accessType = [
     "Otra carrera"
 ];
 
+const asigType = [
+    "Obligatoria", 
+    "Optativa", 
+    "Practicas Externas", 
+    "Trabajo Final"
+];
+
+const asigDifficulty = [
+    "Fácil", 
+    "Medio", 
+    "Difícil", 
+    "Muy difícil"
+];
+
+
+const asigMark = [
+    "Insuficiente",
+    "Suficiente", 
+    "Notable", 
+    "Sobresaliente",
+    "Matricula de Honor"
+];
+
 
 module.exports = {
     titles,
@@ -245,4 +268,7 @@ module.exports = {
     townships,
     rentLevel,
     accessType,
+    asigType,
+    asigDifficulty,
+    asigMark,
 }

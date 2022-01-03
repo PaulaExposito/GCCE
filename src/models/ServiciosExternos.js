@@ -1,22 +1,27 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const {sequelize} = require('../config/database');
 
 const Alumno = require('./Alumno');
 
-const ServiciosExternos = (sequelize, Sequelize) => {
-    const {INTEGER, STRING, BOOLEAN} = Secuelize;
-    const ServiciosExternos = sequelize.define('ServiciosExternos', {
-        num_ss: {type: STRING, primaryKey: true},
+const ServiciosExternos = sequelize.define(
+    'ServiciosExternos', 
+    {
+        num_ss: {type: DataTypes.INTEGER, primaryKey: true},
         cod_alumno: {
-            type: INTEGER,
+            type: DataTypes.INTEGER,
             references: {
                 model: Alumno,
-                key: 'cod_alu'
+                key: 'cod_alumno'
             }
         },
-        trabaja: {type: BOOLEAN, primaryKey: false},
-        sueldo: {type: INTEGER, primaryKey: false}
-    });
-}
+        trabaja: {type: DataTypes.BOOLEAN, primaryKey: false},
+        sueldo: {type: DataTypes.INTEGER, primaryKey: false},
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
+    },
+    {
+        freezeTableName: true
+    }
+);
 
 module.exports = ServiciosExternos;

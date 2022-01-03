@@ -1,42 +1,67 @@
-// const Asignatura = require('../models/Asignatura')
+const Asignatura = require('../models/Asignatura')
+const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createAsignatura(asigDTO) {
-    // console.log(asigDTO);
-    // console.log();
+    let sql = `INSERT INTO Asignatura (cod_asig, cod_titulo, profesor, dificultad, cred_asig, nom_asig, curso, cuatrimestre, tip_asig, especial) VALUES ?`
+    conexion.query(sql, [asigDTO], function (err, result) {
+        if (err) throw err;
+        console.log("Number of records inserted: " + result.affectedRows);
+    });
 }
 
 
 // Generate random data
 
-const asigType = ["Obligatoria", "Optativa", "Practicas Externas", "Trabajo Fin"];
-const asigName = ["Física", "Empresariales", "Cálculo", "Álgebra", "Biología", "Química", "Dibujo Técnico"]
-const asigDifficulty = ["Fácil", "Medio", "Difícil", "Muy difícil"];
+const asigType = require('../config/data').asigType;
+const asigDifficulty = require('../config/data').asigDifficulty;
 
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function randomIntFromIntervalCredits(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min) * 6
-}
-
-function generateAsignatura(id, titleId, nSubjects, prof) {
-    const subject = {
-        cod_asig: id,
-        cod_titulo: titleId,
-        profesor: prof,
-        dificultad: asigDifficulty[Math.floor(Math.random() * asigDifficulty.length)], // yo esto no lo pondria
-        cred_asig: randomIntFromIntervalCredits(1,3),
-        // nom_asig: asigName[Math.floor(Math.random() * asigName.length)],
-        nom_asig: `NAME_ASIG_${id % nSubjects + 1}`,
-        curso: randomIntFromInterval(2005, 2020),
-        cuatrimestre: randomIntFromInterval(1,2),
-        tip_asig: asigType[Math.floor(Math.random() * asigType.length)],
-        especial: Math.random() < 0.5,
+function generateType(specials) {
+    // Specials is an array of two elements
+    for (let i = 0; i < 2; i++) {
+        if (specials[0] == 0) {
+            specials[0] = 1;
+            return "Trabajo Final";
+        }
+        else if (specials[1] == 0) {
+            specials[1] = 1;
+            return "Practicas externas";
+        }
     }
-    createAsignatura(subject);
+
+    const random = Math.random();
+    return (random < 0.7) ? "Obligatoria" : "Optativa";
+}
+
+function isSpecial(type) {
+    return (type == "Trabajo Final" || type == "Practicas Externas");
+}
+
+function getCredits(type) {
+    switch (type) {
+        case "Trabajo Final": return 12;
+        case "Practicas Externas": return 12;
+        default: return 6;
+    }
+}
+
+function generateAsignatura(id, titleId, nSubjects, profId, secret) {
+    const type = generateType(secret);
+
+    const subject = [
+        id,
+        titleId,
+        profId,
+        asigDifficulty[Math.floor(Math.random() * asigDifficulty.length)], // yo esto no lo pondria
+        getCredits(type),
+        `NOMBRE_ASIG_${id % nSubjects + 1}`,
+        randomIntFromInterval(1990, 2000),
+        randomIntFromInterval(1, 2),
+        type,
+        isSpecial(type),
+    ];
+    //createAsignatura(subject);
     return subject;
 }
 

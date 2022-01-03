@@ -23,16 +23,47 @@ const educationalLevel = require('../config/data').educationalLevel;
 const rentLevel = require('../config/data').rentLevel;
 const townships = require('../config/data').townships;
 
-function randomState(abandonProb, notaAcceso) {
+function abandonRandomState(abandonProb, notaAcceso, posibilities, years) {
     const randomNumber = randomIntFromInterval(1, 10);
-    if( abandonProb < 30 || notaAcceso > 9 ) {
-        return randomNumber < 3 ? titleStatus[2] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+    if( (abandonProb < 30 || notaAcceso > 9) || years >= 3 ) {
+        return randomNumber < 3 ? posibilities[1] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
     }
-    else if ( (abandonProb >= 30 && abandonProb < 50) || notaAcceso > 6) {
-        return randomNumber < 4 ? titleStatus[0] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+    else if ( (abandonProb >= 30 && abandonProb < 50) || (notaAcceso > 6 && years < 2)) {
+        return randomNumber < 4 ? posibilities[0] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
     }
     else {
-        return randomNumber < 4 ? titleStatus[3] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+        return randomNumber < 6 ? posibilities[1] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
+    }
+}
+
+
+function getState(titulProbAbandono, titulDuracion, notaAcceso, initCourse) {
+    const initYear = parseInt(initCourse.split("/")[0]);
+    const currentYear = new Date().getFullYear();
+    const yearsBetweenInitAndNow = currentYear - initYear;
+
+    if (yearsBetweenInitAndNow <= titulDuracion) {
+        return abandonRandomState(titulProbAbandono, notaAcceso, ["activo", "abandono", "pausado"], yearsBetweenInitAndNow);
+    }
+    else {
+        // Puede ser todo
+        const random = Math.random() * 100;
+        // Graduado 60% Pausado 20% Activo 20%
+        if (titulProbAbandono < random) {
+            const randNumber = randomIntFromInterval(1,10)
+            if(randNumber <= 6) {
+                return "graduado"
+            }
+            else if(randNumber > 6 && randNumber <= 8) {                
+                return "pausado"
+            }
+            else {                
+                return "activo"
+            }
+        }
+        else {
+            return "abandono"
+        }
     }
 }
 
@@ -98,15 +129,18 @@ function generateAlumno(id, titulacion, cohorte, acceso) {
     const gender = randomGender();
     const townshipProg1 = randomTownship();
     const townshipProg2 = randomTownship();
+    const initYear = getInitYear(cohorte);
+    const state = getState(titulacion[6], titulacion[2], acceso[2], initYear);
+
     const student = [
         id,
         titulacion[0],
-        randomState(titulacion[6], acceso[2]),
+        state,
         names[Math.floor(Math.random() * names.length)],
         lastnames[Math.floor(Math.random() * lastnames.length)],
         lastnames[Math.floor(Math.random() * lastnames.length)],
         gender,
-        getInitYear(cohorte),
+        initYear,
         townshipProg1.level,
         townshipProg2.level,
         getRentLevel(townshipProg1, townshipProg2),
