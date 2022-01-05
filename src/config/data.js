@@ -249,6 +249,7 @@ const asigDifficulty = [
 
 
 const asigMark = [
+    "No presentado",
     "Insuficiente",
     "Suficiente", 
     "Notable", 

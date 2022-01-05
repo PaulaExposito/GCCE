@@ -11,16 +11,11 @@ function getInitYear(id) {
 
 /// Esta funcion devuelve el numero de matriculas que ha hecho un alumno de forma inteligente
 function getNumberOfMatriculas(alumno, titulacion) {
-    const estado = alumno[2]; 
+    let estado = alumno[2]; 
     const initYear = parseInt(alumno[7].split("/")[0]);
     const currentYear = new Date().getFullYear();
-    const pctAbandonoTitulacion = titulacion[6];
     const duracion = titulacion[2];
 
-    
-    // TODO: borrar, solo para pruebas
-    // return 4;
-    
     switch(estado) {
         case "activo": {
             return currentYear - initYear;
@@ -33,22 +28,20 @@ function getNumberOfMatriculas(alumno, titulacion) {
         case "graduado": {
             if (initYear + duracion < currentYear) {
                 const randomNumber = Math.random();
-                const timeBetweenTeoricalFinishAndNow = currentYear - initYear + duracion;
                 
                 // Menor numero posible: Acabo en tiempo --> initYear + duracion
-                if(randomNumber < 0.3) {
-                    return initYear + duracion
-                }
-                // Mayor numero posible: Acabo el año pasado --> currentYear - initYear - 1
-                else if(randomNumber >= 0.3 && randomNumber < 0.8) {
-                    return currentYear - initYear - 1
+                if(randomNumber < 0.4) {
+                    return duracion
                 }
                 // Resto: en medio de los otros dos valores
                 else {
-                    return randomIntFromInterval(initYear + duracion, currentYear - initYear - 1);
+                    if (Math.random() < 0.8) {
+                        return randomIntFromInterval(duracion, duracion + 2);
+                    }
+                    else {
+                        return randomIntFromInterval(duracion + 2, currentYear - initYear);
+                    }
                 }
-
-                // TODO: decidir con que probabilidad se coge cada uno
             }
             else {  // Nunca deberia entrar aqui
                 new Error();
@@ -56,9 +49,23 @@ function getNumberOfMatriculas(alumno, titulacion) {
         }
         case "abandono": {
             // Lleva mas de dos años sin matricularse
+            const randomNumber = Math.random();
+            
             // Menor numero posible: 1 matricula en initYear
+            if(randomNumber < 0.3) {
+                return 1;
+            }
             // Mayor numero posible: currentYear - initYear - 3
+            else if (randomNumber >= 0.3 && randomNumber < 0.4) {   
+                return currentYear - initYear - 3;
+            }
             // Resto: en medio de los otros dos valores
+            else {
+                if (Math.random() < 0.7)
+                    return randomIntFromInterval(1, duracion / 2);
+                else 
+                    return randomIntFromInterval(1, currentYear - initYear - 3)
+            }
         }
         default: new Error();
     } 

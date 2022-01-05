@@ -34,8 +34,8 @@ function generateTitulacion(id, gradeType, credits) {
 }
 
 function generateTitle(id) {
-    const type = randomIntFromInterval(1,2);
-    if(type === 1) {
+    const type = randomIntFromInterval(1,4);
+    if(type <= 3) {
         return generateTitulacion(id, "grado", 240)
     }
     else {

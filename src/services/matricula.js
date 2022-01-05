@@ -1,5 +1,3 @@
-const Matricula = require('../models/Matricula')
-const { randomIntFromInterval, getInitYear } = require('../utils/utils.js');
 // Database access methods
 
 async function createMatricula(matriculaDTO) {
@@ -13,17 +11,11 @@ async function createMatricula(matriculaDTO) {
 // Generate random data
 const creditCost = 12.45;
 
-// function randomIntFromIntervalCredits(min, max) { // min and max included 
-//     return Math.floor(Math.random() * (max - min + 1) + min) * 6
-// }
-
-function cancelInscription(alumno) {
-    switch(alumno[2]) {
-        case "activo": return Math.random() < 0.2 ? true : false;
-        case "pausado": return false;
-        case "graduado": return false;
-        case "abandono": return true;
-    }
+function cancelInscription(alumno, numMatr, numTotalMatr) {
+    if (alumno[2] == "abandono" && numMatr == numTotalMatr - 1)
+        return true;
+    else    
+        return false;
 }
 
 function getYear(initCourse, numMatricula) {
@@ -40,31 +32,35 @@ function hasBeca(nivelRenta, numMat, duracionTitulacion, trabaja) {
         return (nivelRenta == "alto") ? false : true;
 }
 
-function generateMatricula(id, alumno, numMat, matriculaAnterior, titulacion, trabaja) {
-    console.log(id)
-    console.log(matriculaAnterior)
-    
-    // TODO: Change this to have the possibility of dont pass a subject
-    const credsAprobados = matriculaAnterior == null ? 0 : matriculaAnterior[2] + matriculaAnterior[3]; 
-
+function generateMatricula(id, alumno, numMat, matriculaAnterior, titulacion, trabaja, numTotalMatriculas) {
     const credsTitulacion = titulacion[5];
+    let nuevosCredsAprobados;
+    
+    if (alumno[2] == "graduado")
+        nuevosCredsAprobados = (parseInt(credsTitulacion / numTotalMatriculas / 6)) * 6 % 61;
+    else 
+        nuevosCredsAprobados = (parseInt((credsTitulacion) / numTotalMatriculas / 6)) * 6 - 12 % 61;
+
+    let credsAprobados = matriculaAnterior == null ? 0 : matriculaAnterior[2] + nuevosCredsAprobados; 
+    credsAprobados = (credsAprobados <= credsTitulacion) ? credsAprobados : credsTitulacion;
+
     const credsPendientes = credsTitulacion - credsAprobados;
     const credsMatriculados = credsPendientes > 60 ? 60 : credsPendientes;
 
     const nuevoIngreso = (numMat == 0) ? true : false;
     
-    const matricula = {
-        cod_matricula: id,
-        cod_alumno: alumno[0],
-        cred_aprobados: credsAprobados,      // depende del estado (y de la matricula anterior)
-        cred_matriculados: credsMatriculados,
-        year: getYear(alumno[7], numMat),
-        poat: Math.random() < 0.5,
-        nuevo_ingreso: nuevoIngreso,
-        coste_credito: creditCost,  
-        beca: hasBeca(alumno[10], numMat, titulacion[2], trabaja),
-        cancela_matricula: cancelInscription(alumno),
-    }
+    const matricula = [
+        id,
+        alumno[0],
+        credsAprobados,      // depende del estado (y de la matricula anterior)
+        credsMatriculados,
+        getYear(alumno[7], numMat),
+        Math.random() < 0.5,
+        nuevoIngreso,
+        creditCost,  
+        hasBeca(alumno[10], numMat, titulacion[2], trabaja),
+        cancelInscription(alumno, numMat, numTotalMatriculas),
+    ]
 
     // await createMatricula(matricula);
     return matricula;

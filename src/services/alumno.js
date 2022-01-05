@@ -51,14 +51,17 @@ function getState(titulProbAbandono, titulDuracion, notaAcceso, initCourse) {
         // Graduado 60% Pausado 20% Activo 20%
         if (titulProbAbandono < random) {
             const randNumber = randomIntFromInterval(1,10)
-            if(randNumber <= 6) {
-                return "graduado"
-            }
-            else if(randNumber > 6 && randNumber <= 8) {                
-                return "pausado"
-            }
-            else {                
+            if (randNumber > 8 && titulDuracion + 2 <= yearsBetweenInitAndNow) {                
                 return "activo"
+            }
+            else if(randNumber > 6 && randNumber <= 8) {
+                if (titulDuracion + 4 <= yearsBetweenInitAndNow)                
+                    return "pausado"
+                else 
+                    return "abandono"
+            }
+            else {
+                return "graduado"
             }
         }
         else {
