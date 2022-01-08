@@ -3,14 +3,14 @@ const { program } = require('commander');
 const { connectDatabase, disconnectDatabase, sequelize } = require('./config/database.js');
 connectDatabase();
 
-const alumno = require('./services/alumno');
-const titulacion = require('./services/titulacion');
-const acceso = require('./services/acceso');
-const asignatura = require('./services/asignatura');
-const matricula = require('./services/matricula');
 const profesor = require('./services/profesor');
-const califacademica = require('./services/califacademica');
+const titulacion = require('./services/titulacion');
+const asignatura = require('./services/asignatura');
+const alumno = require('./services/alumno');
+const acceso = require('./services/acceso');
 const serviciosexternos = require('./services/serviciosexternos');
+const matricula = require('./services/matricula');
+const califacademica = require('./services/califacademica');
 
 const { dropTables } = require('./services/controlDatabase');
 
@@ -37,9 +37,9 @@ const options = program.opts();
 
 // Local data 
 
+let generatedProfessor = [];
 let generatedTitles = [];
 let generatedSubjects = [];
-let generatedProfessor = [];
 let generatedStudents = [];
 let generatedAccess = [];
 let generatedInscription = [];
@@ -49,13 +49,7 @@ let generatedCalifAcademica = [];
 
 // Generación de títulos
 
-sequelize.sync().then(() => {
-    
-    // If --delete options is set, delete tables and exits the program
-    dropTables();
-
-    if (options.delete) 
-        process.exit(0);
+sequelize.sync({ force: true }).then(() => {
 
     /// Generar profesores
     for (let i = 0; i < NUMBER_OF_PROFESSORS; ++i) {
@@ -94,8 +88,8 @@ sequelize.sync().then(() => {
         for (let j = 0; j < NUMBER_OF_TITLES; j++) {  
             for (let k = 0; k < NUMBER_OF_STUDENTS_BY_COHORT; k++) { 
                 
-                generatedAccess.push(acceso.generateAcceso(cod));
                 generatedStudents.push(alumno.generateAlumno(cod, generatedTitles[j], i, generatedAccess[cod]));
+                generatedAccess.push(acceso.generateAcceso(cod));
                 generatedExternalServices.push(serviciosexternos.generateServiciosExternos(cod, generatedTitles[j]));
                 
                 const numMatriculas = getNumberOfMatriculas(generatedStudents[cod], generatedTitles[j]);

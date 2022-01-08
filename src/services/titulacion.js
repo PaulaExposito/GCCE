@@ -1,4 +1,5 @@
 const { conexion } = require('../config/database.js');
+const { Titulacion } = require('../models/Titulacion');
 const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
@@ -7,7 +8,7 @@ async function createTitulacion(titulacionDTO) {
     let sql = `INSERT INTO Titulacion (cod_titulo, asignaturas, num_cursos, tip_titul, tip_estud, total_cred, p_abandono) VALUES ?`
     await conexion.query(sql, [titulacionDTO], function (err, result) {
         if (err) throw err;
-        console.log("Number of records inserted: " + result.affectedRows);
+        console.log("(Titulacion) : Number of records inserted: " + result.affectedRows);
     });
 
 }

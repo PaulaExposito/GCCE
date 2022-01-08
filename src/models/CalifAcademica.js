@@ -12,35 +12,35 @@ const CalifAcademica = sequelize.define('CalifAcademica', {
         cod_matricula: {
             type: DataTypes.INTEGER,
             references: {
-                model: Matricula,
+                model: 'Matricula',
                 key: 'cod_matricula'
             }
         },        
         cod_titulo: {
             type: DataTypes.INTEGER,
             references: {
-                model: Titulacion,
+                model: 'Titulacion',
                 key: 'cod_titulo'
             }
         },        
         cod_profesor: {
             type: DataTypes.INTEGER,
             references: {
-                model: Profesor,
+                model: 'Profesor',
                 key: 'cod_profesor'
             }
         },        
         cod_alu: {
             type: DataTypes.INTEGER,
             references: {
-                model: Alumno,
+                model: 'Alumno',
                 key: 'cod_alu'
             }
         },        
         cod_asig: {
             type: DataTypes.INTEGER,
             references: {
-                model: Asignatura,
+                model: 'Asignatura',
                 key: 'cod_asig'
             }
         },

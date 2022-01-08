@@ -1,13 +1,14 @@
 const { conexion } = require('../config/database.js');
+const { Alumno } = require('../models/Alumno');
 const { randomIntFromInterval, getInitYear } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createAlumno(alumnoDTO) {
-    let sql = `INSERT INTO Alumno (cod_alu, cod_titulo, estado, nom_alu, apellido1, apellido2, sexo, year, niv_est_prog1, niv_est_prog2, niv_renta, municipio, provincia, _zona) VALUES ?`
+    let sql = `INSERT INTO Alumno (cod_alu, cod_titulo, estado, nom_alu, apellido1, apellido2, sexo, year, niv_est_prog1, niv_est_prog2, niv_renta, municipio, provincia, _zona) VALUES (?)`
     await conexion.query(sql, [alumnoDTO], function (err, result) {
         if (err) throw err;
-        console.log("Number of records inserted: " + result.affectedRows);
+        console.log("(Alumno) : Number of records inserted: " + result.affectedRows);
     });
 }
 
@@ -22,12 +23,12 @@ const educationalLevel = require('../config/data').educationalLevel;
 const rentLevel = require('../config/data').rentLevel;
 const townships = require('../config/data').townships;
 
-function abandonRandomState(abandonProb, notaAcceso, posibilities, years) {
+function abandonRandomState(abandonProb, /*notaAcceso,*/ posibilities, years) {
     const randomNumber = randomIntFromInterval(1, 10);
-    if( (abandonProb < 30 || notaAcceso > 9) || years >= 3 ) {
+    if( (abandonProb < 30/* || notaAcceso > 9*/) || years >= 3 ) {
         return randomNumber < 3 ? posibilities[1] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
     }
-    else if ( (abandonProb >= 30 && abandonProb < 50) || (notaAcceso > 6 && years < 2)) {
+    else if ( (abandonProb >= 30 && abandonProb < 50)/* || (notaAcceso > 6 && years < 2)*/) {
         return randomNumber < 4 ? posibilities[0] : titleStatus[Math.floor(Math.random() * titleStatus.length)];
     }
     else {
@@ -36,13 +37,13 @@ function abandonRandomState(abandonProb, notaAcceso, posibilities, years) {
 }
 
 
-function getState(titulProbAbandono, titulDuracion, notaAcceso, initCourse) {
+function getState(titulProbAbandono, titulDuracion, /*notaAcceso,*/ initCourse) {
     const initYear = parseInt(initCourse.split("/")[0]);
     const currentYear = new Date().getFullYear();
     const yearsBetweenInitAndNow = currentYear - initYear;
 
     if (yearsBetweenInitAndNow <= titulDuracion) {
-        return abandonRandomState(titulProbAbandono, notaAcceso, ["activo", "abandono", "pausado"], yearsBetweenInitAndNow);
+        return abandonRandomState(titulProbAbandono, /*notaAcceso,*/ ["activo", "abandono", "pausado"], yearsBetweenInitAndNow);
     }
     else {
         // Puede ser todo
@@ -125,12 +126,12 @@ function randomGender() {
     }
 }
 
-function generateAlumno(id, titulacion, cohorte, acceso) {
+function generateAlumno(id, titulacion, cohorte/*, acceso*/) {
     const gender = randomGender();
     const townshipProg1 = randomTownship();
     const townshipProg2 = randomTownship();
     const initYear = getInitYear(cohorte);
-    const state = getState(titulacion[6], titulacion[2], acceso[2], initYear);
+    const state = getState(titulacion[6], titulacion[2], /*acceso[2],*/ initYear);
 
     const student = [
         id,

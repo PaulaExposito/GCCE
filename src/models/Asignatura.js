@@ -10,7 +10,7 @@ const Asignatura = sequelize.define(
         cod_titulo: {
             type: DataTypes.INTEGER,
             references: {
-                model: Titulacion,
+                model: 'Titulacion',
                 key: 'cod_titulo'
             }
         },

@@ -9,12 +9,12 @@ const Acceso = sequelize.define(
         cod_alu: {
             type: DataTypes.INTEGER,
             references: {
-                model: Alumno,
+                model: 'Alumno',
                 key: 'cod_alu'
             }
         },
         tipo_acceso: {type: DataTypes.STRING, primaryKey: false},
-        nota_acceso: {type: DataTypes.INTEGER, primaryKey: false},
+        nota_acceso: {type: DataTypes.FLOAT, primaryKey: false},
         nota_med_bas: {type: DataTypes.INTEGER, primaryKey: false},
         nota_med_esp: {type: DataTypes.INTEGER, primaryKey: false},
         nota_bach: {type: DataTypes.INTEGER, primaryKey: false},

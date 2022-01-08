@@ -1,13 +1,14 @@
 const { conexion } = require('../config/database.js');
+const { CalifAcademica } = require('../models/CalifAcademica');
 const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createCalifAcademica(califDTO) {
-    let sql = `INSERT INTO CalifAcademica (cod_academica, cod_matricula, cod_titulo, cod_profesor, cod_alu, cod_asig, convocatoria, calif_num, calificacion, presentado) VALUES ?`
+    let sql = `INSERT INTO CalifAcademica (cod_academica, cod_matricula, cod_titulo, cod_profesor, cod_alu, cod_asig, convocatoria, calif_num, calificacion, presentado) VALUES (?)`
     await conexion.query(sql, [califDTO], function (err, result) {
         if (err) throw err;
-        console.log("Number of records inserted: " + result.affectedRows);
+        console.log("(Calif Academica): Number of records inserted: " + result.affectedRows);
     });
 }
 

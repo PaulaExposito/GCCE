@@ -1,12 +1,13 @@
 const { conexion } = require('../config/database.js');
+const { Matricula } = require('../models/Matricula');
 
 // Database access methods
 
 async function createMatricula(matriculaDTO) {
-    let sql = `INSERT INTO Matricula (cod_matricula, cod_alumno, cred_aprobados, cred_matriculados, year, poat, nuevo_ingreso, coste_credito, beca, cancela_matricula) VALUES ?`
+    let sql = `INSERT INTO Matricula (cod_matricula, cod_alumno, cred_aprobados, cred_matriculados, year, poat, nuevo_ingreso, coste_credito, beca, cancela_matricula) VALUES (?)`
     await conexion.query(sql, [matriculaDTO], function (err, result) {
         if (err) throw err;
-        console.log("Number of records inserted: " + result.affectedRows);
+        console.log("(Matricula) : Number of records inserted: " + result.affectedRows);
     });
 }
 

@@ -10,7 +10,7 @@ const Alumno = sequelize.define(
         cod_titulo: {
             type: DataTypes.INTEGER,
             references: {
-                model: Titulacion,
+                model: 'Titulacion',
                 key: 'cod_titulo'
             }
         },
@@ -19,10 +19,10 @@ const Alumno = sequelize.define(
         apellido1: {type: DataTypes.STRING, primaryKey: false},
         apellido2: {type: DataTypes.STRING, primaryKey: false},
         sexo: {type: DataTypes.STRING, primaryKey: false},
-        year: {type: DataTypes.INTEGER, primaryKey: false},
+        year: {type: DataTypes.STRING, primaryKey: false},
         niv_est_prog1: {type: DataTypes.STRING, primaryKey: false},
         niv_est_prog2: {type: DataTypes.STRING, primaryKey: false},
-        niv_renta: {type: DataTypes.INTEGER, primaryKey: false},
+        niv_renta: {type: DataTypes.STRING, primaryKey: false},
         municipio: {type: DataTypes.STRING, primaryKey: false},
         provincia: {type: DataTypes.STRING, primaryKey: false},
         _zona: {type: DataTypes.STRING, primaryKey: false},

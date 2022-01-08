@@ -1,13 +1,14 @@
 const { conexion } = require('../config/database.js');
+const { Profesor } = require('../models/Profesor');
 const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createProfesor(profesorDTO) {
-    let sql = `INSERT INTO Profesor (cod_prof, asign_impartidas, nom_prof, apellido1, apellido2, catego, year, tiempo_ull) VALUES ?`
+    let sql = `INSERT INTO Profesor (cod_profesor, asign_impartidas, nom_prof, apellido1, apellido2, catego, year, tiempo_ull) VALUES (?)`
     await conexion.query(sql, [profesorDTO], function (err, result) {
         if (err) throw err;
-        console.log("Number of records inserted: " + result.affectedRows);
+        console.log("(Profesor) : Number of records inserted: " + result.affectedRows);
     });
 }
 

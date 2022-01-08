@@ -10,7 +10,7 @@ const Matricula = sequelize.define(
         cod_alumno: {
             type: DataTypes.INTEGER,
             references: {
-                model: Alumno,
+                model: 'Alumno',
                 key: 'cod_alu'
             }
         },

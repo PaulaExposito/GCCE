@@ -10,7 +10,7 @@ const ServiciosExternos = sequelize.define(
         cod_alu: {
             type: DataTypes.INTEGER,
             references: {
-                model: Alumno,
+                model: 'Alumno',
                 key: 'cod_alu'
             }
         },
