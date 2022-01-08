@@ -1,11 +1,11 @@
-const Asignatura = require('../models/Asignatura')
+const { conexion } = require('../config/database.js');
 const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createAsignatura(asigDTO) {
     let sql = `INSERT INTO Asignatura (cod_asig, cod_titulo, profesor, dificultad, cred_asig, nom_asig, curso, cuatrimestre, tip_asig, especial) VALUES ?`
-    conexion.query(sql, [asigDTO], function (err, result) {
+    await conexion.query(sql, [asigDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -14,7 +14,6 @@ async function createAsignatura(asigDTO) {
 
 // Generate random data
 
-const asigType = require('../config/data').asigType;
 const asigDifficulty = require('../config/data').asigDifficulty;
 
 function generateType(specials) {
@@ -61,7 +60,8 @@ function generateAsignatura(id, titleId, nSubjects, profId, secret) {
         type,
         isSpecial(type),
     ];
-    //createAsignatura(subject);
+    
+    createAsignatura(subject);
     return subject;
 }
 

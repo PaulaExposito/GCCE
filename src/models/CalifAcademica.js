@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
 const Alumno = require('./Alumno');
@@ -48,6 +48,7 @@ const CalifAcademica = sequelize.define('CalifAcademica', {
         calif_num: {type: DataTypes.INTEGER, primaryKey: false},
         calificacion: {type: DataTypes.STRING, primaryKey: false},
         presentado: {type: DataTypes.BOOLEAN, primaryKey: false},
+        
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     },

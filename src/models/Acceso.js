@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
 const Alumno = require('./Alumno');
@@ -17,7 +17,10 @@ const Acceso = sequelize.define(
         nota_acceso: {type: DataTypes.INTEGER, primaryKey: false},
         nota_med_bas: {type: DataTypes.INTEGER, primaryKey: false},
         nota_med_esp: {type: DataTypes.INTEGER, primaryKey: false},
-        nota_bach: {type: DataTypes.INTEGER, primaryKey: false}
+        nota_bach: {type: DataTypes.INTEGER, primaryKey: false},
+
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
     },
     {
         freezeTableName: true

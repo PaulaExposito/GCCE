@@ -64,7 +64,7 @@ function getNumberOfMatriculas(alumno, titulacion) {
                 if (Math.random() < 0.7)
                     return randomIntFromInterval(1, duracion / 2);
                 else 
-                    return randomIntFromInterval(1, currentYear - initYear - 3)
+                    return randomIntFromInterval(1, currentYear - initYear - 3);
             }
         }
         default: new Error();

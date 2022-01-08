@@ -3,7 +3,6 @@ const NUMBER_OF_STUDENTS_BY_COHORT = 150;
 
 const NUMBER_OF_TITLES = 10;
 const NUMBER_OF_PROFESSORS = 100;
-// const NUMBER_OF_STUDENTS = 1000;
 
 const FIRST_YEAR_DATA = 2010;
 
@@ -13,7 +12,6 @@ module.exports = {
     
     NUMBER_OF_TITLES,
     NUMBER_OF_PROFESSORS,
-    // NUMBER_OF_STUDENTS
 
     FIRST_YEAR_DATA,
 }

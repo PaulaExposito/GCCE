@@ -1,8 +1,10 @@
+const { conexion } = require('../config/database.js');
+
 // Database access methods
 
 async function createMatricula(matriculaDTO) {
-    let sql = `INSERT INTO Asignatura (cod_matricula, cod_alumno, cred_aprobados, cred_matriculados, year, poat, curso, nuevo_ingreso, coste_credito, beca, cancela_matricula) VALUES ?`
-    conexion.query(sql, [matriculaDTO], function (err, result) {
+    let sql = `INSERT INTO Matricula (cod_matricula, cod_alumno, cred_aprobados, cred_matriculados, year, poat, nuevo_ingreso, coste_credito, beca, cancela_matricula) VALUES ?`
+    await conexion.query(sql, [matriculaDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -41,6 +43,9 @@ function generateMatricula(id, alumno, numMat, matriculaAnterior, titulacion, tr
     else 
         nuevosCredsAprobados = (parseInt((credsTitulacion) / numTotalMatriculas / 6)) * 6 - 12 % 61;
 
+    if (nuevosCredsAprobados < 0)   
+        nuevosCredsAprobados = 6;
+
     let credsAprobados = matriculaAnterior == null ? 0 : matriculaAnterior[2] + nuevosCredsAprobados; 
     credsAprobados = (credsAprobados <= credsTitulacion) ? credsAprobados : credsTitulacion;
 
@@ -60,9 +65,9 @@ function generateMatricula(id, alumno, numMat, matriculaAnterior, titulacion, tr
         creditCost,  
         hasBeca(alumno[10], numMat, titulacion[2], trabaja),
         cancelInscription(alumno, numMat, numTotalMatriculas),
-    ]
+    ];
 
-    // await createMatricula(matricula);
+    createMatricula(matricula);
     return matricula;
 }
 

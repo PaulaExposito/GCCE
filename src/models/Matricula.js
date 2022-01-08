@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
 const Alumno = require('./Alumno');
@@ -22,6 +22,7 @@ const Matricula = sequelize.define(
         coste_credito: {type: DataTypes.INTEGER, primaryKey: false},
         beca: {type: DataTypes.BOOLEAN, primaryKey: false},
         cancela_matricula: {type: DataTypes.BOOLEAN, primaryKey: false},
+        
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     },

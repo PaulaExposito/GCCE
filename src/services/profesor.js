@@ -5,7 +5,7 @@ const { randomIntFromInterval } = require('../utils/utils.js');
 
 async function createProfesor(profesorDTO) {
     let sql = `INSERT INTO Profesor (cod_prof, asign_impartidas, nom_prof, apellido1, apellido2, catego, year, tiempo_ull) VALUES ?`
-    conexion.query(sql, [profesorDTO], function (err, result) {
+    await conexion.query(sql, [profesorDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -32,7 +32,7 @@ function generateProfessor(id) {
         new Date().getFullYear() - yearBegin,
     ];
 
-    //await createProfesor(professor);
+    createProfesor(professor);
     return professor;
 }
 

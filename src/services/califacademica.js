@@ -4,8 +4,8 @@ const { randomIntFromInterval } = require('../utils/utils.js');
 // Database access methods
 
 async function createCalifAcademica(califDTO) {
-    let sql = `INSERT INTO Profesor (cod_matricula, cod_titulo, cod_profesor, cod_alu, cod_asig, convocatoria, calif_num, calificacion, presentado) VALUES ?`
-    conexion.query(sql, [califDTO], function (err, result) {
+    let sql = `INSERT INTO CalifAcademica (cod_academica, cod_matricula, cod_titulo, cod_profesor, cod_alu, cod_asig, convocatoria, calif_num, calificacion, presentado) VALUES ?`
+    await conexion.query(sql, [califDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -17,7 +17,7 @@ async function createCalifAcademica(califDTO) {
 const asigMark = require('../config/data').asigMark;
 const asigDifficulty = require('../config/data').asigDifficulty;
 
-function getCalif(vaaaprobar, presentado, dificulty, alumno) {
+function getCalif(vaaaprobar, dificulty, alumno) {
     const zonaAlumno = alumno[13];
     if (vaaaprobar) {
         const randomNumber = Math.random();
@@ -69,17 +69,15 @@ function getCalif(vaaaprobar, presentado, dificulty, alumno) {
     }
     else {
         if (Math.random() >= 0.8) {
-            presentado = true;
-            return randomIntFromInterval(1, 4.9);
+            return randomIntFromInterval(1, 4);
         }
         else
             return 0;    
     }
 }
 
-
-function getCalifString(calif, presentado) {
-    if (calif === 10) {
+function getCalifString(calif) {
+    if (calif == 10) {
         return asigMark[5];
     }      
     else if (calif >= 9 && calif < 10) {
@@ -91,25 +89,23 @@ function getCalifString(calif, presentado) {
     else if (calif >= 5 && calif < 7) {
         return asigMark[2];
     }
-    else if (calif >= 1 && calif <= 5) {
+    else if (calif >= 1 && calif < 5) {
         return asigMark[1];
     }
     else {
-        if(calif == 0) presentado = false;
         return asigMark[0];
     }
 }
 
-// function generateCalifAcademica(id_matricula, id_curso, id_titul, id_prof, id_alu, id_asig) {
 function generateCalifAcademica(id, matricula, titulacion, estudiante, asignaturas, asignaturasAprobadas, vaaaprobar, asigEspeciales) {
     
-    let presentado = false;
-    if (vaaaprobar == true)
-        presentado = true;
+    let presentado = true;
     
-    const calif = getCalif(vaaaprobar, presentado, asignaturas[3], estudiante);
-    let califString = getCalifString(calif, presentado);
+    const calif = getCalif(vaaaprobar, asignaturas[3], estudiante);
+    let califString = getCalifString(calif);
 
+    if (califString == "No presentado")
+        presentado = false;
     
     const califAcad = [
         id,
@@ -131,9 +127,7 @@ function generateCalifAcademica(id, matricula, titulacion, estudiante, asignatur
             asigEspeciales[1] = 2;
     }
 
-    // console.log(asigEspeciales)
-
-    // createCalifAcademica(califAcad);
+    createCalifAcademica(califAcad);
     return califAcad;
 }
 

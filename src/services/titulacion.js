@@ -3,9 +3,9 @@ const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
-function createTitulacion(titulacionDTO) {
-    let sql = `INSERT INTO Titulacions (cod_titulo, asignaturas, num_cursos, tip_titul, tip_estud, total_cred, p_abandono) VALUES ?`
-    conexion.query(sql, [titulacionDTO], function (err, result) {
+async function createTitulacion(titulacionDTO) {
+    let sql = `INSERT INTO Titulacion (cod_titulo, asignaturas, num_cursos, tip_titul, tip_estud, total_cred, p_abandono) VALUES ?`
+    await conexion.query(sql, [titulacionDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -18,29 +18,14 @@ function createTitulacion(titulacionDTO) {
 const masterCred = [ 60, 120 ];
 const studieTypes = require('../config/data').titles;
 
-function generateTitulacion(id, gradeType, credits) {
-    const title = [
-        id,
-        credits / 6 - 2,
-        numberOfYears(gradeType, credits),
-        gradeType,
-        studieTypes[id],
-        credits,
-        getTitleAbandon(id),
-    ]
-
-    //await createTitulacion([title]);
-    return title;
-}
-
 function generateTitle(id) {
     const type = randomIntFromInterval(1,4);
     if(type <= 3) {
-        return generateTitulacion(id, "grado", 240)
+        return generateTitulacion(id, "grado", 240);
     }
     else {
         const masterType = randomIntFromInterval(0,1);
-        return generateTitulacion(id, "master", masterCred[masterType])
+        return generateTitulacion(id, "master", masterCred[masterType]);
     }
 }
 
@@ -54,6 +39,21 @@ function getTitleAbandon(id) {
 function numberOfYears(gradeType, credits) {
     if (gradeType == "grado") return 4;
     else return (credits / 6) / 10;
+}
+
+function generateTitulacion(id, gradeType, credits) {
+    const title = [
+        id,
+        credits / 6 - 2,
+        numberOfYears(gradeType, credits),
+        gradeType,
+        studieTypes[id],
+        credits,
+        getTitleAbandon(id),
+    ];
+
+    createTitulacion([title]);
+    return title;
 }
 
 module.exports = {

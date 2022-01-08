@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
 const Profesor = sequelize.define(
@@ -12,6 +12,7 @@ const Profesor = sequelize.define(
         catego: {type: DataTypes.STRING, primaryKey: false},
         year: {type: DataTypes.INTEGER, primaryKey: false},
         tiempo_ull: {type: DataTypes.INTEGER, primaryKey: false},
+        
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     },

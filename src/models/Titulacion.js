@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
 const Titulacion = sequelize.define(
@@ -11,6 +11,7 @@ const Titulacion = sequelize.define(
         tip_estud: {type: DataTypes.STRING, primaryKey: false},
         total_cred: {type: DataTypes.INTEGER, primaryKey: false},
         p_abandono: {type:DataTypes.INTEGER, primaryKey: false},
+        
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     },

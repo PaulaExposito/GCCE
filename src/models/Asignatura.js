@@ -1,5 +1,5 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
-const {sequelize} = require('../config/database');
+const { Sequelize, DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
 
 const Titulacion = require('./Titulacion');
 
@@ -22,6 +22,7 @@ const Asignatura = sequelize.define(
         cuatrimestre: {type: DataTypes.INTEGER, primaryKey: false},
         tip_asig: {type: DataTypes.STRING, primaryKey: false},
         especial: {type: DataTypes.BOOLEAN, primaryKey: false},
+        
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     },

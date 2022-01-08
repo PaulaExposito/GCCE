@@ -1,11 +1,11 @@
-const Acceso = require('../models/Acceso')
+const { conexion } = require('../config/database.js');
 const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createAcceso(accesoDTO) {
     let sql = `INSERT INTO Acceso (cod_alu, tipo_acceso, nota_acceso, nota_med_bas, nota_med_esp, nota_bach) VALUES ?`
-    conexion.query(sql, [accesoDTO], function (err, result) {
+    await conexion.query(sql, [accesoDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -28,9 +28,9 @@ function generateAcceso(id) {
         notaMedBas,
         notaMedEsp,
         notaBach
-    ]
+    ];
 
-    //await createAcceso(access);
+    createAcceso(access);
     return access;
 }
 

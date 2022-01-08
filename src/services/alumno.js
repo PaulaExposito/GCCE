@@ -4,9 +4,8 @@ const { randomIntFromInterval, getInitYear } = require('../utils/utils.js');
 // Database access methods
 
 async function createAlumno(alumnoDTO) {
-
     let sql = `INSERT INTO Alumno (cod_alu, cod_titulo, estado, nom_alu, apellido1, apellido2, sexo, year, niv_est_prog1, niv_est_prog2, niv_renta, municipio, provincia, _zona) VALUES ?`
-    conexion.query(sql, [alumnoDTO], function (err, result) {
+    await conexion.query(sql, [alumnoDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -70,7 +69,6 @@ function getState(titulProbAbandono, titulDuracion, notaAcceso, initCourse) {
     }
 }
 
-
 function randomTownship() {
     const randtownships = townships[Math.floor(Math.random() * townships.length)];
     const randomLevel = Math.floor(Math.random() * educationalLevel.length);
@@ -97,7 +95,6 @@ function randomTownship() {
         default: throw Error();
     }
     return randtownships;
-
 }
 
 function getRentLevel(townshipProg1, townshipProg2) {
@@ -152,7 +149,7 @@ function generateAlumno(id, titulacion, cohorte, acceso) {
         townshipProg1.zone
     ];
 
-    //await createAlumno(student);
+    createAlumno(student);
     return student;
 }
 

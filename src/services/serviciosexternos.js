@@ -1,11 +1,11 @@
-const ServiciosExternos = require('../models/ServiciosExternos')
+const { conexion } = require('../config/database.js');
 const { randomIntFromInterval } = require('../utils/utils.js');
 
 // Database access methods
 
 async function createServiciosExternos(externServicDTO) {
-    let sql = `INSERT INTO ServiciosExternos (num_ss, cod_alumno, trabaja, sueldo) VALUES ?`
-    conexion.query(sql, [externServicDTO], function (err, result) {
+    let sql = `INSERT INTO ServiciosExternos (num_ss, cod_alu, trabaja, sueldo) VALUES ?`
+    await conexion.query(sql, [externServicDTO], function (err, result) {
         if (err) throw err;
         console.log("Number of records inserted: " + result.affectedRows);
     });
@@ -39,7 +39,7 @@ function generateServiciosExternos(cod, titulacion) {
         work,
         money
     ]
-    //createServiciosExternos(servicio);
+    createServiciosExternos(servicio);
     return servicio;
 }
 
