@@ -99,19 +99,19 @@ function randomTownship() {
 }
 
 function getRentLevel(townshipProg1, townshipProg2) {
-    const randomNumber = Math.floor(Math.random() * rentLevel.length) % 6;
+    const randomNumber = randomIntFromInterval(0,6);
     if (townshipProg1.zone == townshipProg2.zone == "Pueblo") {
-        return (randomNumber < 2) ? rentLevel[0] :
-                    (randomNumber < 6) ? rentLevel[1] :
+        return (randomNumber < 3) ? rentLevel[1] :
+                    (randomNumber >= 3 && randomNumber < 6) ? rentLevel[0] :
                         rentLevel[2];
     }
     else if (townshipProg1.zone == townshipProg2.zone == "Ciudad") {
-        return (randomNumber < 2) ? [0] : 
+        return (randomNumber < 2) ? rentLevel[0] : 
                     (randomNumber < 5) ? rentLevel[2] :
                         rentLevel[1]   
     }
     else {
-        return (randomNumber < 3) ? rentLevel[1] : rentLevel[2];
+        return (randomNumber < 2) ? rentLevel[1] : (randomNumber >= 2 && randomNumber < 5) ? rentLevel[2] : rentLevel[0];
     }
 }
 
