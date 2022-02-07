@@ -1,7 +1,8 @@
 <br />
 <p align="center">
 
-  <h3 align="center"> README Proyecto Final </h3>
+  <h3 align="center"> README </h3>
+  <h3 align="center"> Proyecto Final </h3>
   <h3 align="center"> GCCE </h3>
 
   <p align="center">
