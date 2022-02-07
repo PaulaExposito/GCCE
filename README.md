@@ -7,12 +7,12 @@
 
   <p align="center">
     <br />
-    <a href="https://github.com/PaulaExposito/GCCE"><strong>Docs »</strong></a>
+    <a href="https://github.com/PaulaExposito/GCCE"><strong>Documentación »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/PaulaExposito/GCCE/issues">Report bug</a>
+    <a href="https://github.com/PaulaExposito/GCCE/issues">Reportar fallos</a>
     ·
-    <a href="https://github.com/PaulaExposito/GCCE/issues">Request Feature</a>
+    <a href="https://github.com/PaulaExposito/GCCE/issues">Pedir funcionalidades</a>
   </p>
 </p>
 
@@ -20,7 +20,7 @@
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
-  <summary>Table of Contents</summary>
+  <summary>Índice</summary>
   <ol>
     <li><a href="#introduccion">Introduccion</a></li>
     <li><a href="#uso">Uso</a></li>
